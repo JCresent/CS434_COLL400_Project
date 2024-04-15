@@ -9,9 +9,9 @@ from sklearn.metrics import confusion_matrix
 from sklearn.decomposition import PCA
 
 
-chatGPTcsv = "Put CSV here"
-blackboardcsv = "Put CSV here"
-youtubecsv = "Put CSV here"
+chatGPTcsv = "lakeData/4-8_chatGPT.csv"
+blackboardcsv = "lakeData/4-9_blackboard.csv"
+linkedIn = "lakeData/4-9_linkedin.csv"
 
 
 
@@ -21,12 +21,12 @@ chatGPT = pd.read_csv(chatGPTcsv)
 print(len(chatGPT))
 blackboard = pd.read_csv(blackboardcsv)
 print(len(blackboard))
-youtube = pd.read_csv(youtubecsv)
+linkedIn = pd.read_csv(linkedIn)
 
 chatGPT["Website"] = 1
 blackboard["Website"] = 2
-youtube["Website"] = 3
-completeData = pd.concat([chatGPT, blackboard,youtube])
+linkedIn["Website"] = 3
+completeData = pd.concat([chatGPT, blackboard,linkedIn])
 
 
 protocols = completeData["Protocol"].value_counts().index
@@ -37,5 +37,5 @@ for protocol in protocols:
 print(protocolMap)
 completeData["Protocol"] = completeData["Protocol"].map(protocolMap)
 numericData = completeData[["Time", "Protocol", "Length","Website"]]
-numericData
+print(numericData)
 
