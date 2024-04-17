@@ -33,7 +33,7 @@ numericData = completeData[["Time", "Protocol", "Length", "Website"]]
 print(numericData)
 
 
-# Begin neural network
+#Neural network
 data = numericData[["Time", "Protocol", "Length"]]
 labels = numericData["Website"]
 
@@ -52,3 +52,9 @@ train_score = accuracy_score(predictions_train, train_labels)
 print("score on train data: ", train_score)
 test_score = accuracy_score(predictions_test, test_labels)
 print("score on test data: ", test_score)
+
+#KNN 
+#TODO: Implement KNN
+
+#Random Forest
+#TODO: Implement Random Forest
