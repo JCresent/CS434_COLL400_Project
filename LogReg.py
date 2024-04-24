@@ -25,7 +25,6 @@ def reformatInfoAndPacket(dataframe):
             infoMap[info] = len(infoMap)
     dataframe["Protocol"] = dataframe["Protocol"].map(protocolMap)
     dataframe["Info"] = dataframe["Info"].map(infoMap)
-    #print(f"protocolMap: {protocolMap}, InfoMap {infoMap}")
     if "Website" in dataframe.columns:
         return dataframe[["Time", "Protocol", "Length","Info","Website"]]
     else:
@@ -33,9 +32,7 @@ def reformatInfoAndPacket(dataframe):
 
 def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame):
     chatGPT = pd.read_csv(chatGPTcsv)
-    #print(len(chatGPT))
     blackboard = pd.read_csv(blackboardcsv)
-    #print(len(blackboard))
     linkedIn = pd.read_csv(linkedIncsv)
     chatGPT["Website"] = "ChatGPT"
     blackboard["Website"] = "Blackboard"
@@ -43,12 +40,10 @@ def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame)
     completeData = pd.concat([chatGPT, blackboard,linkedIn])
     numericData = reformatInfoAndPacket(completeData) 
     downSampledData = resample(numericData,replace=False, n_samples=sizeOfDataFrame,random_state=42)
-    #print(downSampledData)
     return downSampledData
 
 def convertWMdata(wmCSV):
     wmData = pd.read_csv(wmCSV)
-    #print(wmData.head())
     return reformatInfoAndPacket(wmData)
 
 chatGPTcsv = "lakeData/4-8_chatGPT.csv"
@@ -57,3 +52,34 @@ linkedIncsv = "lakeData/4-9_linkedin.csv"
 
 data = convertWireSharkData(chatGPTcsv,blackboardcsv,linkedIncsv,3000 )
 
+X = data.drop(columns="Website").values
+y = data["Website"].astype("category").values
+
+logistic_model = LogisticRegression()
+
+logistic_model.fit(X, y)
+
+print(logistic_model.score(X,y))
+
+WMdata = convertWMdata("lakeData/wmwifiData.csv")
+class_labels = logistic_model.classes_
+
+probabilities = pd.DataFrame(logistic_model.predict_proba(WMdata),columns=[class_labels[0],class_labels[1],class_labels[2]])
+predictions = [] 
+
+for index, row in probabilities.iterrows():
+    max_prob_col_index = row.idxmax()
+
+    if row.max() >= 0.85:
+        
+        prediction = max_prob_col_index
+    else:
+        
+        prediction = "Other"
+
+    predictions.append(prediction) 
+
+
+probabilities_with_prediction = pd.concat([probabilities, pd.Series(predictions, name="Prediction")], axis=1)
+
+print(probabilities_with_prediction)
