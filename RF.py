@@ -182,6 +182,7 @@ print(results[results['rank_test_score'] == 1])
 rfc_final = RFC(n_estimators=100, max_depth=9, min_samples_split=5, random_state=201)
 rfc_final.fit(Xtrain, ytrain)
 print('Train Score: ', rfc_final.score(Xtrain, ytrain))
+print('Test Score: ', rfc_final.score(Xtest, ytest))
 
 #Confusion matrix 
 y_names = ["ChatGPT","Blackboard","LinkedIn"]
