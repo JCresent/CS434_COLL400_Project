@@ -36,6 +36,66 @@ def do_Kfold(model,X,y,k,scaler = None, random_state = 146):
         
     return train_scores, test_scores
 
+def compare_classes(actual, predicted, names=None):
+    '''Function returns a confusion matrix, and overall accuracy given:
+            Input:  actual - a list of actual classifications
+                    predicted - a list of predicted classifications
+                    names (optional) - a list of class names
+    '''
+    accuracy = sum(actual==predicted)/actual.shape[0]
+    
+    classes = pd.DataFrame(columns = ['Actual', 'Predicted'])
+    classes['Actual'] = actual
+    classes['Predicted'] = predicted
+
+    conf_mat = pd.crosstab(classes['Actual'], classes['Predicted'])
+    
+    if type(names) != type(None):
+        conf_mat.index = names
+        conf_mat.index.name = 'Actual'
+        conf_mat.columns = names
+        conf_mat.columns.name = 'Predicted'
+    
+    print('Accuracy = ' + format(accuracy, '.2f'))
+    return conf_mat, accuracy
+
+def make_grid(x_range,y_range):
+    '''Function will take a list of x values and a list of y values, 
+    and return a list of points in a grid defined by the two ranges'''
+    import numpy as np
+    xx,yy = np.meshgrid(x_range,y_range)
+    points = np.vstack([xx.ravel(), yy.ravel()]).T
+    return points
+
+def plot_groups(points, groups, colors, 
+               ec='black', ax='None',s=30, alpha=0.5,
+               figsize=(6,6)):
+    '''Creates a scatter plot, given:
+            Input:  points (array)
+                    groups (an integer label for each point)
+                    colors (one rgb tuple for each group)
+                    ec (edgecolor for markers, default is black)
+                    ax (optional handle to an existing axes object to add the new plot on top of)
+            Output: handles to the figure (fig) and axes (ax) objects
+    '''
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    # Create a new plot, unless something was passed for 'ax'
+    if ax == 'None':
+        fig,ax = plt.subplots(figsize=figsize)
+    else:
+        fig = plt.gcf()
+    
+    for i,lbl in enumerate(np.unique(groups)):
+        idx = (groups==lbl)
+        ax.scatter(points[idx,0], points[idx,1],color=colors[i],
+                    ec=ec,alpha=alpha,label = lbl,s=s)
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+    ax.legend(bbox_to_anchor=[1, 0.5], loc='center left')
+    return fig, ax
+
 def reformatInfoAndPacket(dataframe):
     protocols = dataframe["Protocol"].value_counts().index
     infos = dataframe["Info"].value_counts().index
@@ -117,4 +177,13 @@ results = pd.DataFrame(grid.cv_results_)[['param_n_estimators','param_max_depth'
                                 'param_min_samples_split','mean_test_score','rank_test_score']]
 results.head()
 
-print("DONE")
+print(results[results['rank_test_score'] == 1])
+
+rfc_final = RFC(n_estimators=100, max_depth=9, min_samples_split=5, random_state=201)
+rfc_final.fit(Xtrain, ytrain)
+print('Train Score: ', rfc_final.score(Xtrain, ytrain))
+
+#Confusion matrix 
+y_names = ["ChatGPT","Blackboard","LinkedIn"]
+print(compare_classes(ytest, rfc_final.predict(Xtest), y_names))
+#print("DONE")
