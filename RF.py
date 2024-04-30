@@ -1,5 +1,8 @@
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 from sklearn.model_selection import train_test_split as tts
 from sklearn.model_selection import KFold, GridSearchCV
 from sklearn.tree import DecisionTreeClassifier as DTC
@@ -186,5 +189,11 @@ print('Test Score: ', rfc_final.score(Xtest, ytest))
 
 #Confusion matrix 
 y_names = ["ChatGPT","Blackboard","LinkedIn"]
-print(compare_classes(ytest, rfc_final.predict(Xtest), y_names))
+cnf_matrix, accuracy = compare_classes(ytest, rfc_final.predict(Xtest), y_names)
+print(cnf_matrix, accuracy)
+
+#Make heatmap visual 
+sns.heatmap(cnf_matrix, cmap='Purples', vmin=0, vmax=800,
+            annot=True, fmt='.2f', xticklabels=y_names, yticklabels=y_names)
+plt.show()
 #print("DONE")
