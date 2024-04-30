@@ -9,77 +9,105 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import KFold, LeaveOneOut
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.utils import resample
+from sklearn.model_selection import train_test_split as tts
+
 
 protocolMap = {}
-infoMap = {}
 
+def compare_classes(actual, predicted, names=None):
+    '''Function returns a confusion matrix, and overall accuracy given:
+            Input:  actual - a list of actual classifications
+                    predicted - a list of predicted classifications
+                    names (optional) - a list of class names
+    '''
+    accuracy = sum(actual==predicted)/actual.shape[0]
+    
+    classes = pd.DataFrame(columns = ['Actual', 'Predicted'])
+    classes['Actual'] = actual
+    classes['Predicted'] = predicted
+
+    conf_mat = pd.crosstab(classes['Actual'], classes['Predicted'])
+    
+    if type(names) != type(None):
+        conf_mat.index = names
+        conf_mat.index.name = 'Actual'
+        conf_mat.columns = names
+        conf_mat.columns.name = 'Predicted'
+    
+    print('Accuracy = ' + format(accuracy, '.2f'))
+    return conf_mat, accuracy
 def reformatInfoAndPacket(dataframe):
     protocols = dataframe["Protocol"].value_counts().index
-    infos = dataframe["Info"].value_counts().index
+
     
     for protocol in protocols:
         if protocol not in protocolMap.keys():
             protocolMap[protocol] = len(protocolMap)
-    for info in infos:
-        if info not in infoMap.keys():
-            infoMap[info] = len(infoMap)
     dataframe["Protocol"] = dataframe["Protocol"].map(protocolMap)
-    dataframe["Info"] = dataframe["Info"].map(infoMap)
-    if "Website" in dataframe.columns:
-        return dataframe[["Time", "Protocol", "Length","Info","Website"]]
-    else:
-        return dataframe[["Time", "Protocol", "Length","Info"]]
 
-def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame):
+    if "Website" in dataframe.columns:
+        return dataframe[["Time", "Protocol", "Length","Website"]]
+    else:
+        return dataframe[["Time", "Protocol", "Length"]]
+
+def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame = 0):
     chatGPT = pd.read_csv(chatGPTcsv)
+    #print(len(chatGPT))
     blackboard = pd.read_csv(blackboardcsv)
+    #print(len(blackboard))
     linkedIn = pd.read_csv(linkedIncsv)
+    sampleSize = min(len(chatGPT),len(blackboard),len(linkedIn))
+
+    blackboard = resample(blackboard,replace=False, n_samples=sampleSize,random_state=42)
+    linkedIn = resample(linkedIn,replace=False, n_samples=sampleSize,random_state=42)
+    chatGPT = resample(chatGPT,replace=False, n_samples=sampleSize,random_state=42)
+
+
     chatGPT["Website"] = "ChatGPT"
     blackboard["Website"] = "Blackboard"
     linkedIn["Website"] = "Linkedin"
     completeData = pd.concat([chatGPT, blackboard,linkedIn])
     numericData = reformatInfoAndPacket(completeData) 
+    
+    if sizeOfDataFrame == 0:
+        sizeOfDataFrame = len(numericData)
     downSampledData = resample(numericData,replace=False, n_samples=sizeOfDataFrame,random_state=42)
+    #print(downSampledData)
     return downSampledData
 
 def convertWMdata(wmCSV):
     wmData = pd.read_csv(wmCSV)
     return reformatInfoAndPacket(wmData)
 
-chatGPTcsv = "lakeData/4-8_chatGPT.csv"
-blackboardcsv = "lakeData/4-9_blackboard.csv"
-linkedIncsv = "lakeData/4-9_linkedin.csv"
+chatGPTcsv = "lakeData/train/4-8_chatGPT.csv"
+blackboardcsv = "lakeData/train/4-9_blackboard.csv"
+linkedIncsv = "lakeData/train/4-9_linkedin.csv"
 
-data = convertWireSharkData(chatGPTcsv,blackboardcsv,linkedIncsv,3000 )
+data = convertWireSharkData(chatGPTcsv,blackboardcsv,linkedIncsv )
 
-X = data.drop(columns="Website").values
+
+
+
+
+
+X_df = data.drop(columns="Website").values
+X = np.array(X_df)
 y = data["Website"].astype("category").values
-
+Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 logistic_model = LogisticRegression()
+logistic_model.fit(Xtrain,ytrain)
+logistic_model.score(Xtrain,ytrain)
+y_pred = logistic_model.predict(Xtest)
+# print(f"-------------------------Train Data-----------------------------")
+print(compare_classes(ytest, y_pred))
 
-logistic_model.fit(X, y)
+# print(f"---------------------------Test Data------------------------------------")
 
-print(logistic_model.score(X,y))
-
-WMdata = convertWMdata("lakeData/wmwifiData.csv")
-class_labels = logistic_model.classes_
-
-probabilities = pd.DataFrame(logistic_model.predict_proba(WMdata),columns=[class_labels[0],class_labels[1],class_labels[2]])
-predictions = [] 
-
-for index, row in probabilities.iterrows():
-    max_prob_col_index = row.idxmax()
-
-    if row.max() >= 0.85:
-        
-        prediction = max_prob_col_index
-    else:
-        
-        prediction = "Other"
-
-    predictions.append(prediction) 
+# WMdata = convertWireSharkData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv")
+# actualClasses = WMdata["Website"]
+# testData = WMdata.drop("Website", axis = 1)
+# predictedClasses = logistic_model.predict(testData)
+# confusionMatrix, accuracy = compare_classes(actualClasses,predictedClasses)
+# print(confusionMatrix,accuracy)
 
 
-probabilities_with_prediction = pd.concat([probabilities, pd.Series(predictions, name="Prediction")], axis=1)
-
-print(probabilities_with_prediction)

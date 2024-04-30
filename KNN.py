@@ -73,13 +73,11 @@ def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame 
     #print(downSampledData)
     return downSampledData
 
-def convertWMdata(wmCSV):
-    wmData = pd.read_csv(wmCSV)
-    #print(wmData.head())
-    return reformatInfoAndPacket(wmData)
+
 
 def trainData():
-    data = convertWireSharkData("lakeData/train/chatdata.csv","lakeData/train/blackboardData.csv","lakeData/train/linkedindata.csv" )
+    data = convertWireSharkData("lakeData/train/chatdata.csv","lakeData/train/blackboardData.csv","lakeData/train/linkedindata.csv",7000 )
+    print(f"Train data contains {len(data)} packets")
     X = data.drop(columns="Website").values
     y = data["Website"].astype("category").values
     K_range = np.linspace(10,30).astype('int64')
@@ -158,6 +156,7 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
     predictedClasses = model.predict(testData)
     confusionMatrix, accuracy = compare_classes(actualClasses,predictedClasses)
     cMatrix = confusion_matrix(actualClasses,predictedClasses)
+    print(f"Test data contains {len(testData)} packets")
 
 
     return confusionMatrix,accuracy,cMatrix
@@ -174,5 +173,6 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
 model = trainData()
 plot,modelAccuracy,cmatrix = testWMData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv",model)
 print(plot)
+
 
 
