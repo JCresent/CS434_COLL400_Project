@@ -1,2 +1,11 @@
+# mac Finder info
 .DS_Store
+
+# python caching
 __pycache__
+
+# jupyter-notebook testing
+*.ipynb*
+
+# vim
+*.swp*
