@@ -12,7 +12,6 @@ from sklearn.utils import resample
 
 
 protocolMap = {}
-infoMap = {}
 
 
 def do_Kfold(model,X,y,k,scaler = None, random_state = 146):
@@ -101,33 +100,37 @@ def plot_groups(points, groups, colors,
 
 def reformatInfoAndPacket(dataframe):
     protocols = dataframe["Protocol"].value_counts().index
-    infos = dataframe["Info"].value_counts().index
     
     for protocol in protocols:
         if protocol not in protocolMap.keys():
             protocolMap[protocol] = len(protocolMap)
-    for info in infos:
-        if info not in infoMap.keys():
-            infoMap[info] = len(infoMap)
     dataframe["Protocol"] = dataframe["Protocol"].map(protocolMap)
-    dataframe["Info"] = dataframe["Info"].map(infoMap)
-    #print(f"protocolMap: {protocolMap}, InfoMap {infoMap}")
     if "Website" in dataframe.columns:
-        return dataframe[["Time", "Protocol", "Length","Info","Website"]]
+        return dataframe[["Time", "Protocol", "Length", "Website"]]
     else:
-        return dataframe[["Time", "Protocol", "Length","Info"]]
+        return dataframe[["Time", "Protocol", "Length"]]
 
-def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame):
+def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame = 0):
     chatGPT = pd.read_csv(chatGPTcsv)
     #print(len(chatGPT))
     blackboard = pd.read_csv(blackboardcsv)
     #print(len(blackboard))
     linkedIn = pd.read_csv(linkedIncsv)
+    sampleSize = min(len(chatGPT),len(blackboard),len(linkedIn))
+
+    blackboard = resample(blackboard,replace=False, n_samples=sampleSize,random_state=42)
+    linkedIn = resample(linkedIn,replace=False, n_samples=sampleSize,random_state=42)
+    chatGPT = resample(chatGPT,replace=False, n_samples=sampleSize,random_state=42)
+
+
     chatGPT["Website"] = "ChatGPT"
     blackboard["Website"] = "Blackboard"
     linkedIn["Website"] = "Linkedin"
     completeData = pd.concat([chatGPT, blackboard,linkedIn])
     numericData = reformatInfoAndPacket(completeData) 
+    
+    if sizeOfDataFrame == 0:
+        sizeOfDataFrame = len(numericData)
     downSampledData = resample(numericData,replace=False, n_samples=sizeOfDataFrame,random_state=42)
     #print(downSampledData)
     return downSampledData
@@ -139,11 +142,11 @@ def convertWMdata(wmCSV):
 
 #Repalce with actual data 
 #TODO
-chatGPTcsv = "lakeData/4-8_chatGPT.csv"
-blackboardcsv = "lakeData/4-9_blackboard.csv"
-linkedIncsv = "lakeData/4-9_linkedin.csv"
+chatGPTcsv = "lakeData/train/4-8_chatGPT.csv"
+blackboardcsv = "lakeData/train/4-9_blackboard.csv"
+linkedIncsv = "lakeData/train/4-9_linkedin.csv"
 
-data = convertWireSharkData(chatGPTcsv,blackboardcsv,linkedIncsv,3000 )
+data = convertWireSharkData(chatGPTcsv,blackboardcsv,linkedIncsv)
 
 X = data.drop(columns="Website").values
 y = data["Website"].astype("category").values
@@ -194,6 +197,18 @@ print(cnf_matrix, accuracy)
 
 #Make heatmap visual 
 sns.heatmap(cnf_matrix, cmap='Purples', vmin=0, vmax=800,
+            annot=True, fmt='.2f', xticklabels=y_names, yticklabels=y_names)
+plt.show()
+
+#Test on validation sets
+test_data = convertWireSharkData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv")
+X_test = test_data.drop(columns="Website").values
+y_test = test_data["Website"]
+cnf_matrix_tst, accuracy_tst = compare_classes(y_test, rfc_final.predict(X_test), y_names)
+print(cnf_matrix_tst, accuracy_tst)
+
+#Make heatmap visual 
+sns.heatmap(cnf_matrix_tst, cmap='Purples', vmin=0, vmax=800,
             annot=True, fmt='.2f', xticklabels=y_names, yticklabels=y_names)
 plt.show()
 #print("DONE")
