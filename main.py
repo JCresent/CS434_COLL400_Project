@@ -5,9 +5,9 @@ import os
 
 from KNN import *
 from NN import *
+from utils import RAND_ST
 
 
-RAND_ST = 42 # to produce replicable results
 KNN_TRAIN_SIZE = 7000
 
 
@@ -70,7 +70,7 @@ def main():
     run_KNN(knn_train_data, test_data)
 
     nn_train_data = get_data("Train")
-    # run_NN(nn_train_data, test_data)
+    run_NN(nn_train_data, test_data)
     
 
 if __name__ == "__main__": 

@@ -1,82 +1,96 @@
+import numpy as np
 import pandas as pd
-from sklearn.neural_network import MLPClassifier
+import matplotlib.pyplot as plt
+from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.utils import resample
+from seaborn import heatmap
+
+from utils import RAND_ST, compare_classes
 
 
-# Pulls in data
-# Combines everything
-# Mixes it up and normalizes observation count
-def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame = 0):
-    chatGPT = pd.read_csv(chatGPTcsv)
-    #print(len(chatGPT))
-    blackboard = pd.read_csv(blackboardcsv)
-    #print(len(blackboard))
-    linkedIn = pd.read_csv(linkedIncsv)
-    sampleSize = min(len(chatGPT),len(blackboard),len(linkedIn))
+def pre_process(train_data, test_data):
 
-    blackboard = resample(blackboard,replace=False, n_samples=sampleSize,random_state=42)
-    linkedIn = resample(linkedIn,replace=False, n_samples=sampleSize,random_state=42)
-    chatGPT = resample(chatGPT,replace=False, n_samples=sampleSize,random_state=42)
+    X = train_data[["Time", "Protocol", "Length"]]
+    y = train_data["Website"]
 
+    X_test = test_data[["Time", "Protocol", "Length"]]
+    y_test = test_data["Website"]
 
-    chatGPT["Website"] = "ChatGPT"
-    blackboard["Website"] = "Blackboard"
-    linkedIn["Website"] = "Linkedin"
-    completeData = pd.concat([chatGPT, blackboard,linkedIn])
-    numericData = reformatInfoAndPacket(completeData) 
-    
-    if sizeOfDataFrame == 0:
-        sizeOfDataFrame = len(numericData)
-    downSampledData = resample(numericData,replace=False, n_samples=sizeOfDataFrame,random_state=42)
-    print(downSampledData)
-    return downSampledData
+    # Scale the data
+    scale = StandardScaler()
+
+    # scales, and makes 2d arrays (3 cols)
+    X = scale.fit_transform(X)
+    X_test = scale.transform(X_test)
+
+    # make y into 1d arrays (1 col)
+    y = y.to_numpy()
+    y_test = y_test.to_numpy()
+
+    return X, y, X_test, y_test 
 
 
+def grid_search(X, y):
+    mlp = MLPClassifier(random_state=RAND_ST, max_iter=1000)
+
+    # real params for initial large gridsearch
+    # parameters = {
+    #     'activation': ['identity', 'logistic', 'tanh', 'relu'],
+    #     'solver': ['adam','lbfgs','sgd'],
+    #     'alpha': 10.0 ** -np.arange(-1, 10),
+    #     'hidden_layer_sizes':[[i for i in range(4,10)] for j in range(4,10)]
+    # }
+
+    # test params for debug
+    parameters = {
+        'activation': ['relu'],
+        'solver': ['adam','lbfgs'],
+        'alpha': [0.0001],
+        'hidden_layer_sizes':(9,),
+    }
+
+    gs = GridSearchCV(mlp, parameters, n_jobs=-1, scoring="accuracy", verbose=3)
+    gs.fit(X, y)
+
+    # Store and print data for analysis
+    print(gs.score(X, y))
+    print(gs.best_params_)
+    results = pd.DataFrame(gs.cv_results_)
+    results = results[['param_activation','param_solver',
+                       'param_alpha','param_hidden_layer_sizes',
+                       'mean_test_score','std_test_score','rank_test_score']]
+    results.to_csv("Output/nn_gridsearch.csv")
+    best_params = results[results['rank_test_score'] == 1]
+    params_dict = best_params.to_dict(orient='records')[0]
+    print(params_dict)
+
+    return gs
 
 
-# chatGPTcsv = "lakeData/4-8_chatGPT.csv"
-# blackboardcsv = "lakeData/4-9_blackboard.csv"
-# linkedIn = "lakeData/4-9_linkedin.csv"
-# 
-# chatGPT = pd.read_csv(chatGPTcsv)
-# print(len(chatGPT))
-# blackboard = pd.read_csv(blackboardcsv)
-# print(len(blackboard))
-# linkedIn = pd.read_csv(linkedIn)
-# 
-# chatGPT["Website"] = 1
-# blackboard["Website"] = 2
-# linkedIn["Website"] = 3
-# completeData = pd.concat([chatGPT, blackboard,linkedIn])
-# 
-# protocols = completeData["Protocol"].value_counts().index
-# protocolMap = {}
-# for protocol in protocols:
-#     if protocol not in protocolMap.keys():
-#         protocolMap[protocol] = len(protocolMap)
-# print(protocolMap)
-# completeData["Protocol"] = completeData["Protocol"].map(protocolMap)
-# numericData = completeData[["Time", "Protocol", "Length", "Website"]]
-# print(numericData)
-# 
-# 
-# #Neural network
-# data = numericData[["Time", "Protocol", "Length"]]
-# labels = numericData["Website"]
-# 
-# split = train_test_split(data, labels, test_size=0.2)
-# train_data, test_data, train_labels, test_labels = split
-# 
-# clf = MLPClassifier(solver='lbfgs', 
-#                     alpha=1e-5,
-#                     hidden_layer_sizes=(6,), 
-#                     random_state=1)
-# clf.fit(train_data, train_labels) 
-# 
-# predictions_train = clf.predict(train_data)
-# predictions_test = clf.predict(test_data)
-# train_score = accuracy_score(predictions_train, train_labels)
-# print("score on train data: ", train_score)
-# test_score = accuracy_score(predictions_test, test_labels)
-# print("score on test data: ", test_score)
+def predict_and_show(gs, X_test, y_test):
+    test_pred = gs.predict(X_test)
+    test_score = accuracy_score(test_pred, y_test)
+    print("score on test data: ",test_score)
+
+    y_names = ["ChatGPT","Blackboard","LinkedIn"]
+    confusion_matrix, accuracy = compare_classes(y_test, test_pred, y_names)
+    print(confusion_matrix)
+
+    heatmap(confusion_matrix, cmap='Purples',
+            vmin=0, vmax=800,
+            annot=True, fmt='.2f',
+            xticklabels=y_names, yticklabels=y_names)
+    plt.show()
+
+
+def run_NN(train_data, test_data):
+    print("Starting Neural Network")
+
+    X, y, X_test, y_test = pre_process(train_data, test_data)
+    gs = grid_search(X, y)
+    predict_and_show(gs, X_test, y_test)
+

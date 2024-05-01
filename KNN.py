@@ -5,8 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
 
-
-RAND_ST = 42 # to produce replicable results
+from utils import RAND_ST, compare_classes
 
 
 def qualifier(model, X, y):
@@ -48,30 +47,6 @@ def trainData(data):
     model.fit(X, y)
     print(model.score(X,y))
     return model
-
-
-def compare_classes(actual, predicted, names=None):
-    '''Function returns a confusion matrix, and overall accuracy given:
-            Input:  actual - a list of actual classifications
-                    predicted - a list of predicted classifications
-                    names (optional) - a list of class names
-    '''
-    accuracy = sum(actual==predicted)/actual.shape[0]
-    
-    classes = pd.DataFrame(columns = ['Actual', 'Predicted'])
-    classes['Actual'] = actual
-    classes['Predicted'] = predicted
-
-    conf_mat = pd.crosstab(classes['Actual'], classes['Predicted'])
-    
-    if type(names) != type(None):
-        conf_mat.index = names
-        conf_mat.index.name = 'Actual'
-        conf_mat.columns = names
-        conf_mat.columns.name = 'Predicted'
-    
-    print('Accuracy = ' + format(accuracy, '.2f'))
-    return conf_mat, accuracy
 
 
 def testWMData(testData, model):
