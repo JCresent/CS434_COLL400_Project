@@ -11,21 +11,26 @@ RAND_ST = 42 # to produce replicable results
 KNN_TRAIN_SIZE = 7000
 
 
-def reformatInfoAndPacket(dataframe):
-    protocolMap = {}
-
-    protocols = dataframe["Protocol"].value_counts().index
-    infos = dataframe["Info"].value_counts().index
+def clean_data(df, size):
+    # make packet column numeric
+    protocol_map = {}
+    protocols = df["Protocol"].value_counts().index
     
     for protocol in protocols:
-        if protocol not in protocolMap.keys():
-            protocolMap[protocol] = len(protocolMap)
+        if protocol not in protocol_map.keys():
+            protocol_map[protocol] = len(protocol_map)
 
-    dataframe["Protocol"] = dataframe["Protocol"].map(protocolMap)
-    if "Website" in dataframe.columns:
-        return dataframe[["Time", "Protocol", "Length","Website"]]
-    else:
-        return dataframe[["Time", "Protocol", "Length"]]
+    df["Protocol"] = df["Protocol"].map(protocol_map)
+
+    # subset to desired rows
+    df = df[["Time", "Protocol", "Length", "Website"]]
+
+    if size < 1 or size > len(df):
+        # invalid size or no size passed in, don't down-sample data
+        size = len(df)
+
+    # potentially down-sample, and mix it up
+    return resample(df, replace=False, n_samples=size, random_state=RAND_ST)
 
 
 def csv_dir_to_df(dir_path):
@@ -52,14 +57,9 @@ def get_data(dataset, size=0):
     chatgpt_df["Website"] = "ChatGPT"
     blackboard_df["Website"] = "Blackboard"
 
-    complete_data = pd.concat([chatgpt_df, linkedin_df, blackboard_df])
-    numericData = reformatInfoAndPacket(complete_data) 
+    combined = pd.concat([chatgpt_df, linkedin_df, blackboard_df])
 
-    if size < 1 or size > len(numericData):
-        # invalid size or no size passed in, don't down-sample data
-        size = len(numericData)
-
-    return resample(numericData, replace=False, n_samples=size, random_state=RAND_ST)
+    return clean_data(combined, size)
 
 
 def main():
