@@ -5,6 +5,8 @@
 
 \documentclass[10pt,sigconf,letterpaper,nonacm]{acmart}
 
+\DeclareMathSizes{12}{30}{16}{12}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This is the preamble; include packages as you see fit.
 % Here are a few recommendations:
@@ -99,8 +101,36 @@ three distinct files.
 This section comprehensively evaluates our models and their performance on the dataset and validating sets. Later, goes on to determine the model which best classified our selected websites based on network packet data.
 \subsection{Dataset}
 \subsection{Evaluation Metrics}
-Accuracy and Macro F1 score are the primary metrics used to evaluate each model. These metrics are applicable to all models and allow for
+Accuracy and Macro F1 score were the primary metrics used to evaluate each model. These metrics are applicable to all models and allow for
 a direct comparison for each of their performances. Two other metrics: precision and recall, help to provide a more detailed understanding of the model's performance on a class-to-class basis.
+\newline \\
+The equation for \textbf{Accuracy}: \\
+\[
+Accuracy= \frac{TP + TN}{TS}
+\]
+\newline \\
+The equation for \textbf{Macro F1}: \\
+\[
+Macro F 1= \frac{1}{n} \sum_{1}^{n} \frac{2*Precision*Recall}{Precision_i+Recall_i}
+\]
+\newline \\
+The equation for \textbf{Recall}: \\
+\[
+Recall= \frac{TP}{TP + FN}
+\]
+\newline \\
+The equation for \textbf{Precision}: \\
+\[
+Accuracy= \frac{TP}{TP + FP}
+\]
+Accuracy is the score that rates the effectivness of a model at classification overall (ie. how many it predicited correctly out of the total set). 
+
+Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores accross all classes.
+
+Recall is the calculation of how many the model correctly classified within a class (ie. how many truly belong in that class in the entire dataset). 
+Precision is the calculation of how many the model correctly classified within a class (ie. can be thought of as class accuracy).
+
+
 \subsection{Model Comparison and Evaluation Results}
 
 
