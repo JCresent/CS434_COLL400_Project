@@ -74,7 +74,13 @@ This section presents the methodology for how this project goes about capturing 
 
 \subsection{Capturing Data}
 \subsubsection{Wireshark}
+
 \subsubsection{Data Collection}
+To commence the collection of our data, we open Wireshark and select a network connection. 
+In this project we established a connection the College of William and Mary's network interface (en0). In order to isolate the web traffic in order to specifically collect 
+packets that we are analyzing, the capture filter functionality is utilized. The website of interest is then visited in the web browser which causes Wireshark to begin collecting the packets being exchanged.
+After collecting sufficient packets, the data is then converted into a Comma Seperated Values (CSV). This process of data collection is performed for Blackboard, LinkedIn, and ChatGPT resulting in the creation of 
+three distinct files. 
 
 \subsection{Data Preparation and Processing}
 
