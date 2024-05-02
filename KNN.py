@@ -60,7 +60,6 @@ def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame 
     linkedIn = resample(linkedIn,replace=False, n_samples=sampleSize,random_state=42)
     chatGPT = resample(chatGPT,replace=False, n_samples=sampleSize,random_state=42)
 
-
     chatGPT["Website"] = "ChatGPT"
     blackboard["Website"] = "Blackboard"
     linkedIn["Website"] = "Linkedin"
@@ -162,17 +161,15 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
     return confusionMatrix,accuracy,cMatrix
 
 
-    
-    
 
 # we can check what the actual predictions were and see how accurate our model is 
 # print(testWMdata)
 
 
-
 model = trainData()
 plot,modelAccuracy,cmatrix = testWMData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv",model)
 print(plot)
+
 
 
 

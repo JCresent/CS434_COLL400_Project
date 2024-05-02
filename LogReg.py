@@ -103,11 +103,11 @@ print(compare_classes(ytest, y_pred))
 
 # print(f"---------------------------Test Data------------------------------------")
 
-# WMdata = convertWireSharkData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv")
-# actualClasses = WMdata["Website"]
-# testData = WMdata.drop("Website", axis = 1)
-# predictedClasses = logistic_model.predict(testData)
-# confusionMatrix, accuracy = compare_classes(actualClasses,predictedClasses)
-# print(confusionMatrix,accuracy)
+WMdata = convertWireSharkData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv")
+actualClasses = WMdata["Website"]
+testData = WMdata.drop("Website", axis = 1)
+predictedClasses = logistic_model.predict(testData)
+confusionMatrix, accuracy = compare_classes(actualClasses,predictedClasses)
+print(confusionMatrix,accuracy)
 
 
