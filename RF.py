@@ -9,6 +9,7 @@ from sklearn.tree import DecisionTreeClassifier as DTC
 from sklearn import tree
 from sklearn.ensemble import RandomForestClassifier as RFC
 from sklearn.utils import resample
+import GraphModels
 
 
 protocolMap = {}
@@ -142,9 +143,9 @@ def convertWMdata(wmCSV):
 
 #Repalce with actual data 
 #TODO
-chatGPTcsv = "lakeData/train/4-8_chatGPT.csv"
-blackboardcsv = "lakeData/train/4-9_blackboard.csv"
-linkedIncsv = "lakeData/train/4-9_linkedin.csv"
+chatGPTcsv = "lakeData/train/chatdata.csv"
+blackboardcsv = "lakeData/train/blackboardData.csv"
+linkedIncsv = "lakeData/train/linkedindata.csv"
 
 data = convertWireSharkData(chatGPTcsv,blackboardcsv,linkedIncsv)
 
@@ -185,30 +186,35 @@ results.head()
 
 print(results[results['rank_test_score'] == 1])
 
-rfc_final = RFC(n_estimators=100, max_depth=9, min_samples_split=5, random_state=201)
-rfc_final.fit(Xtrain, ytrain)
+rfc_final = RFC(n_estimators=100, max_depth=13, min_samples_split=5, random_state=201)
+rfc_final.fit(X, y)
 print('Train Score: ', rfc_final.score(Xtrain, ytrain))
 print('Test Score: ', rfc_final.score(Xtest, ytest))
 
 #Confusion matrix 
-y_names = ["ChatGPT","Blackboard","LinkedIn"]
-cnf_matrix, accuracy = compare_classes(ytest, rfc_final.predict(Xtest), y_names)
-print(cnf_matrix, accuracy)
+#y_names = ["Blackboard","ChatGPT","LinkedIn"]
+#graph = GraphModels.Graphs(Xtest, ytest, rfc_final.predict(Xtest))
+#print(Xtest)
+#graph.confusionMatrix("Random Forest Confusion Matrix"), graph.scatterPlot("Random Forest Scatter Plot")
+#cnf_matrix, accuracy = compare_classes(ytest, rfc_final.predict(Xtest), y_names)
+#print(cnf_matrix, accuracy)
 
 #Make heatmap visual 
-sns.heatmap(cnf_matrix, cmap='Purples', vmin=0, vmax=800,
-            annot=True, fmt='.2f', xticklabels=y_names, yticklabels=y_names)
-plt.show()
+#sns.heatmap(cnf_matrix, cmap='Purples', vmin=0, vmax=800,
+#            annot=True, fmt='.2f', xticklabels=y_names, yticklabels=y_names)
+#plt.show()
 
 #Test on validation sets
 test_data = convertWireSharkData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv")
-X_test = test_data.drop(columns="Website").values
+X_test = test_data.drop(columns="Website", axis=1)
 y_test = test_data["Website"]
-cnf_matrix_tst, accuracy_tst = compare_classes(y_test, rfc_final.predict(X_test), y_names)
-print(cnf_matrix_tst, accuracy_tst)
+graph_1 = GraphModels.Graphs(X_test, y_test, rfc_final.predict(X_test))
+graph_1.confusionMatrix("Random Forest"), graph_1.scatterPlot("Random Forest")
+#cnf_matrix_tst, accuracy_tst = compare_classes(y_test, rfc_final.predict(X_test), y_names)
+#print(cnf_matrix_tst, accuracy_tst)
 
 #Make heatmap visual 
-sns.heatmap(cnf_matrix_tst, cmap='Purples', vmin=0, vmax=800,
-            annot=True, fmt='.2f', xticklabels=y_names, yticklabels=y_names)
+#sns.heatmap(cnf_matrix_tst, cmap='Purples', vmin=0, vmax=800,
+#            annot=True, fmt='.2f', xticklabels=y_names, yticklabels=y_names)
 plt.show()
 #print("DONE")
