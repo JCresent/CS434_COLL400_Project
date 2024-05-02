@@ -51,6 +51,23 @@ for network administrators and security professionals, whom would examine the ne
 \maketitle
 
 \section{Introduction}
+The ability to monitor and analyze network traffic is crucial for the efficiency and security of a network \cite{10.1145/2388576.2388608}. 
+It helps to manage the overall network performance, detect and prevent malicious activities, and ensure the network is operating as intended.
+The present day internet is composed of a vast variety of diverse web traffic, of which requires a more sophisticated approach to analyze and classify network traffic.\cite{10.5555/3432601.3432608}
+This project investigates a variety of machine learning algorithms to see which most accurately and effectively classify web traffic based on data from a set of captured network packets. 
+
+  Traffic classification is very significant in practice, if done accurately and effectively \cite{10.1109/TNET.2014.2320577}. For reasons mentioned previously, the observed capabilities of this and other projects 
+  can be crucial for network administrators and security professionals, whom would examine the network for malicious traffic.
+
+  For this project, many sets of packet data were collected from three popular websites: ChatGPT, Blackboard, and Linkedin. These sets were then merged into a single dataset, which was then split into training and testing sets. 
+  Three models were then trained and tested on this data: Logistic Regression, K-Nearest Neighbors, Random Forest, and Neural Network \cite{scikit-learn}. 
+
+  A thorough evaluation of the models was conducted through testing and validation sets, hyperparameter optimization along with cross-validation, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
+  acheived the highest accuracy of $80\%$ and Macro F1 score of BLANK. %%TODO fill in the score.%%
+  These scores show the model's ability to accurately classify the selected websites based on captured network packet data.
+
+  Overall, the significance of this project is seen in its use of Machine Learning and the extensions of these applications into the discipline of network traffic analysis. This practice has potential to be utilized in real-world applications, and many sources
+  proving it already is \cite{10.5555/3432601.3432608}. 
 
 \section{Proposed Method}
 
@@ -69,5 +86,9 @@ for network administrators and security professionals, whom would examine the ne
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{refs}
+\cite{10.1145/2388576.2388608}
+\cite{10.5555/3432601.3432608}
+\cite{10.1109/TNET.2014.2320577}
+\cite{scikit-learn}
 
 \end{document}
