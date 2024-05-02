@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex paper"] 1714681055.6661 "paper.aux" "paper.bbl" "paper" 1714681056.93598 0
+["bibtex paper"] 1714684721.95261 "paper.aux" "paper.bbl" "paper" 1714684772.93781 0
   "./ACM-Reference-Format.bst" 1714419023.70307 90332 18dc4e5c9b5c2ddd337e9f97727d04f1 ""
   "./refs.bib" 1714681052.58247 5068 c992d9aa9a43d02213a01d93e546da1f ""
-  "paper.aux" 1714681056.60455 3802 e4c59552a011bf63934cec2a367ae43d "pdflatex"
+  "paper.aux" 1714684772.56926 3802 f6d7180c80f5c6d8d4691eb4059dd672 "pdflatex"
   (generated)
   "paper.bbl"
   "paper.blg"
   (rewritten before read)
-["pdflatex"] 1714681055.76874 "/Users/lakebradford/Desktop/CS434_COLL400_Project/Final_Report/paper.tex" "paper.pdf" "paper" 1714681056.9361 0
-  "/Users/lakebradford/Desktop/CS434_COLL400_Project/Final_Report/paper.tex" 1714681052.582 6464 90ec34b8390fa9e83b0511e6d01fa1fa ""
+["pdflatex"] 1714684771.69212 "/Users/lakebradford/Desktop/CS434_COLL400_Project/Final_Report/paper.tex" "paper.pdf" "paper" 1714684772.93795 0
+  "/Users/lakebradford/Desktop/CS434_COLL400_Project/Final_Report/paper.tex" 1714684771.51786 7175 930c25e63b80add52227ddf511f3e707 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1490131464 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1490131464 2933 9ad527ce78d7c5fa0a642dead095f172 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc" 1490131464 2934 a4a9158faed2e9e89c771b4e3b7fc12f ""
@@ -179,10 +179,10 @@
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1714595711 8221448 6c4ebab024f9ef34cf56bfb1ab72e0ac ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
   "acmart.cls" 1714419023.70391 116410 bb3e28c4a017f796d47769aed7d83ca1 ""
-  "paper.aux" 1714681056.60455 3802 e4c59552a011bf63934cec2a367ae43d "pdflatex"
-  "paper.bbl" 1714681055.76579 4596 f26f1246888d1f3b47a74a093e63b9c5 "bibtex paper"
-  "paper.out" 1714681056.60522 2283 387530c585feba257a5bfebb82850905 "pdflatex"
-  "paper.tex" 1714681052.582 6464 90ec34b8390fa9e83b0511e6d01fa1fa ""
+  "paper.aux" 1714684772.56926 3802 f6d7180c80f5c6d8d4691eb4059dd672 "pdflatex"
+  "paper.bbl" 1714684722.06314 4596 f26f1246888d1f3b47a74a093e63b9c5 "bibtex paper"
+  "paper.out" 1714684772.56995 2283 387530c585feba257a5bfebb82850905 "pdflatex"
+  "paper.tex" 1714684771.51786 7175 930c25e63b80add52227ddf511f3e707 ""
   (generated)
   "paper.aux"
   "paper.log"

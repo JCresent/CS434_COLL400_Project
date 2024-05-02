@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.1)  2 MAY 2024 16:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.1)  2 MAY 2024 17:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -821,9 +821,9 @@ Overfull \hbox (6.52705pt too wide) in paragraph at lines 65--68
  []
 
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 77.
+(Font)              scaled to size 10.0pt on input line 78.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 77.
+(Font)              scaled to size 10.0pt on input line 78.
 [1.1{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}
 
 {/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}] (./paper.bbl
@@ -831,9 +831,13 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 8.0pt on input line 43.
 LaTeX Info: Redefining \tempurl on input line 74.
 )
+
+Package balance Warning: You have called \balance in second column
+(balance)                Columns might not be balanced.
+
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 121.
- (/usr/local/texlive/2024/texmf-dist/tex/generic/stringenc/se-pdfdoc.def
+(Font)              scaled to size 8.0pt on input line 127.
+(/usr/local/texlive/2024/texmf-dist/tex/generic/stringenc/se-pdfdoc.def
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 ) (/usr/local/texlive/2024/texmf-dist/tex/generic/stringenc/se-utf8.def
 File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
@@ -846,15 +850,15 @@ Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: 387530C585FEBA257A5BFEBB82850905;2283.
  ) 
 Here is how much of TeX's memory you used:
- 20780 strings out of 474116
- 332959 string characters out of 5743683
- 1949187 words of memory out of 5000000
+ 20795 strings out of 474116
+ 333328 string characters out of 5743683
+ 1950187 words of memory out of 5000000
  42374 multiletter control sequences out of 15000+600000
- 668956 words of font info for 235 fonts, out of 8000000 for 9000
+ 670446 words of font info for 245 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 90i,12n,131p,1065b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,12n,131p,1065b,601s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinBiolinumTI.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb>
-Output written on paper.pdf (2 pages, 413059 bytes).
+Output written on paper.pdf (2 pages, 413640 bytes).
 PDF statistics:
  153 PDF objects out of 1000 (max. 8388607)
  130 compressed objects within 2 object streams
