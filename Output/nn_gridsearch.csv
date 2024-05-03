@@ -1,2 +1,3 @@
 ,param_activation,param_solver,param_alpha,param_hidden_layer_sizes,mean_test_score,std_test_score,rank_test_score
-0,tanh,adam,0.01,"(4, 5, 6, 7, 8, 9)",0.8911204504197577,0.009630319723332328,1
+0,tanh,adam,0.01,3,0.7407979019782542,0.0032716166378470813,2
+1,tanh,adam,0.01,4,0.7699553405105651,0.012139776272791046,1
