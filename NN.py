@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
@@ -38,20 +38,20 @@ def grid_search(X, y):
     mlp = MLPClassifier(random_state=RAND_ST, max_iter=1000)
 
     # real params for initial large gridsearch
-    # parameters = {
-    #     'activation': ['identity', 'logistic', 'tanh', 'relu'],
-    #     'solver': ['adam','lbfgs','sgd'],
-    #     'alpha': 10.0 ** -np.arange(-1, 10),
-    #     'hidden_layer_sizes':[[i for i in range(4,10)] for j in range(4,10)]
-    # }
+    parameters = {
+        'activation': ['identity', 'logistic', 'tanh', 'relu'],
+        'solver': ['adam','lbfgs','sgd'],
+        'alpha': 10.0 ** -np.arange(-1, 10),
+        'hidden_layer_sizes':[[i for i in range(4,10)] for j in range(4,10)]
+    }
 
     # test params for debug
-    parameters = {
-        'activation': ['relu'],
-        'solver': ['adam','lbfgs'],
-        'alpha': [0.0001],
-        'hidden_layer_sizes':(9,),
-    }
+    # parameters = {
+    #     'activation': ['relu'],
+    #     'solver': ['adam','lbfgs'],
+    #     'alpha': [0.0001],
+    #     'hidden_layer_sizes':(9,),
+    # }
 
     gs = GridSearchCV(mlp, parameters, n_jobs=-1, scoring="accuracy", verbose=3)
     gs.fit(X, y)
