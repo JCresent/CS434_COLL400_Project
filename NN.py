@@ -42,8 +42,10 @@ def grid_search(X, y):
         'activation': ['identity', 'logistic', 'tanh', 'relu'],
         'solver': ['adam','lbfgs','sgd'],
         'alpha': 10.0 ** -np.arange(-1, 10),
-        'hidden_layer_sizes':[[i for i in range(4,10)] for j in range(4,10)]
+        'hidden_layer_sizes':[[0],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]
+        # only testing single layer
     }
+
 
     # test params for debug
     # parameters = {
