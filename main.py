@@ -66,8 +66,8 @@ def main():
     # Use the same test data for all models
     test_data = get_data("Test")
 
-    knn_train_data = get_data("Train", KNN_TRAIN_SIZE)
-    run_KNN(knn_train_data, test_data)
+    # knn_train_data = get_data("Train", KNN_TRAIN_SIZE)
+    # run_KNN(knn_train_data, test_data)
 
     nn_train_data = get_data("Train")
     run_NN(nn_train_data, test_data)

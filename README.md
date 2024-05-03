@@ -3,3 +3,7 @@
 
 
 * Looks like it didn't completely run, because there's only one array of hidden layer stuff here
+
+* 03-05-24
+    * 12 node hidden layer was the best
+    * Going to try 12-20 node layer gridsearch
