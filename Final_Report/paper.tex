@@ -117,6 +117,12 @@ This process ensures a balanced yet unbiased dataset that maximizes the effectiv
 
 \subsection{Employed models}
 \subsubsection{Logistic Regression (Baseline)}
+As a starting point, we employed the Logistic Regression model as a baseline for our data analysis. Logistic regression is a statistical method used for binary classification tasks, where the goal is to predict the probability of an event happening or not happening.
+It was understoof initiallly that this model may not be an ideal fit for our data, due to the regressions binary nature having more than two classifications is not ideal.
+However, for our purposes this was an excellent baseline. It was important for us to first visualize what features define network traffic so that we could further model around them, and the logistic regression was the most efficient choice for that.
+Our model returned us an accuracy score of .56, or 56\%, which is less than ideal but not entirely unexpected.
+To analyze the data further, we put the results from our model into a confusion matrix. With this we were able to see that the model predicted Blackboard quite well, atleast in comparison to ChatGPT and Linkedin which were far poorer.
+
 
 \subsubsection{K-Nearest Neighbors}
 
