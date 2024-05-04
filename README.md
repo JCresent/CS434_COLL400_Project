@@ -7,3 +7,7 @@
 * 03-05-24
     * 12 node hidden layer was the best
     * Going to try 12-20 node layer gridsearch
+    
+* 04-05-24
+    * 20 was the best
+    * Going to try 20-75 node layer gridsearch, increasing by 5s

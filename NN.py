@@ -42,7 +42,7 @@ def grid_search(X, y):
         'activation': ['identity', 'logistic', 'tanh', 'relu'],
         'solver': ['adam','lbfgs','sgd'],
         'alpha': 10.0 ** -np.arange(-1, 10),
-        'hidden_layer_sizes':[(12),(13),(14),(15),(16),(17),(18),(19),(20),]
+        'hidden_layer_sizes':[(20),(25),(30),(35),(40),(45),(50),(55),(60),(65),(70)]
         # only testing single layer
         # smallest must be 3 or error, since there are 3 output nodes
     }
