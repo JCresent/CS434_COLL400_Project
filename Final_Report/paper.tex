@@ -222,7 +222,25 @@ Precision is the calculation of how many classifications truly belong to each cl
 
 
 \subsection{Model Comparison and Evaluation Results}
+The results in table \ref{tab:results} show that the neural network achieved the highest accuracy (80\%) and Macro F1 score (0.00). These results mean the model was the most effective at classifying the selected websites based on network packet data.
+This displays the neural network is much more effective at representing complex relationships in the data than the other models. 
 
+  \begin{table}[!h]
+    \begin{center}
+    \caption{Accuracy and Macro F1 Scores for Each Model}
+    \label{tab:results}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      Model & Accuracy & Macro F1 \\
+      \hline
+      Logistic Regression & 56\% & 0.00 \\
+      K-Nearest Neighbors & 77\% & 0.00 \\
+      Random Forest & 78\% & 0.00 \\
+      Neural Network & 80\% & 0.00 \\
+      \hline
+    \end{tabular}
+    \end{center}
+  \end{table}
 
 \section{Discussion \& Future Work}
 \subsection{Analysis of Results}
