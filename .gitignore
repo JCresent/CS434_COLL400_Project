@@ -9,3 +9,13 @@ __pycache__
 
 # vim
 *.swp*
+
+#Latex Workshop stuff
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz

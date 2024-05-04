@@ -3,7 +3,7 @@ from sklearn.utils import resample
 
 import os
 
-from KNN import *
+#from KNN import *
 from NN import *
 from utils import RAND_ST
 

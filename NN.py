@@ -12,7 +12,7 @@ from seaborn import heatmap
 from utils import RAND_ST, compare_classes
 import GraphModels
 
-MAX_ITER = 2000
+MAX_ITER = 1000
 
 
 def pre_process(train_data, test_data):
@@ -50,16 +50,26 @@ def grid_search(X, y):
         # smallest must be 3 or error, since there are 3 output nodes
     # }
 
-
-    # test params for debug
+    # real params for initial large gridsearch
     parameters = {
-        'activation': ['relu'],
+        'activation': ['identity', 'logistic', 'tanh', 'relu'],
         'solver': ['adam','lbfgs'],
-        'alpha': [0.0001],
-        'hidden_layer_sizes':(9,),
+        'alpha': 10.0 ** -np.arange(-1, 10),
+        'hidden_layer_sizes':[(20)]
+      # only testing single layer
+      # smallest must be 3 or error, since there are 3 output nodes
     }
 
-    gs = GridSearchCV(mlp, parameters, n_jobs=-1, scoring="accuracy")
+
+    # test params for debug
+    #parameters = {
+    #    'activation': ['relu'],
+    #    'solver': ['adam','lbfgs'],
+    #    'alpha': [0.0001],
+    #    'hidden_layer_sizes':(9,),
+    #}
+
+    gs = GridSearchCV(mlp, parameters, n_jobs=-1, scoring="accuracy", verbose=3)
     gs.fit(X, y)
 
     # Store and print data for analysis
@@ -89,11 +99,19 @@ def make_nn(X, y, X_test, y_test):
     #     random_state=RAND_ST,
     #     max_iter=MAX_ITER
     # )
+    #mlp = MLPClassifier(
+    #    activation="relu",
+    #    solver="adam",
+    #    alpha=0.0001,
+    #    hidden_layer_sizes=(9),
+    #    random_state=RAND_ST,
+    #    max_iter=MAX_ITER
+    #)
     mlp = MLPClassifier(
-        activation="relu",
-        solver="adam",
-        alpha=0.0001,
-        hidden_layer_sizes=(9),
+        activation="logistic",
+        solver="lbfgs",
+        alpha=0.1,
+        hidden_layer_sizes=(20),
         random_state=RAND_ST,
         max_iter=MAX_ITER
     )
@@ -102,12 +120,15 @@ def make_nn(X, y, X_test, y_test):
     return mlp
 
 
-def predict_and_show(model, X_test, y_test):
+def predict_and_show(model, X_test, y_test, train_data):
     test_pred = model.predict(X_test)
+    test_score = accuracy_score(test_pred, y_test)
+    print("accuracy: " + str(test_score))
     graph = GraphModels.Graphs(X_test, y_test, test_pred)
+    
     graph.confusionMatrix("NN Confusion Matrix")
-    plt.savefig("Figures_and_Graphs/ConfusionMatrixNN.png")
-    plt.show()
+
+    
 
 
 def run_NN(train_data, test_data):
@@ -116,5 +137,6 @@ def run_NN(train_data, test_data):
     X, y, X_test, y_test = pre_process(train_data, test_data)
     # model = grid_search(X, y)
     model = make_nn(X, y, X_test, y_test)
-    predict_and_show(model, X_test, y_test)
+    test = predict_and_show(model, X_test, y_test, train_data)
+    plt.show()
 

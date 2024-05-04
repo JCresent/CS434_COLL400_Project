@@ -1,8 +1,70 @@
 @string{CCS= "ACM Conference on Computer and Communications Security (CCS)"}
 
-@inproceedings{geneva,
-    author = {Kevin Bock and George Hughey and Xiao Qiang and Dave Levin},
-    title = {{Geneva: Evolving Censorship Evasion Strategies}},
-    booktitle = CCS,
-    year = {2019},
+@inproceedings{10.1145/2388576.2388608,
+author = {Tsunoda, Hiroshi and Keeni, Glenn Mansfield},
+title = {Security by simple network traffic monitoring},
+year = {2012},
+isbn = {9781450316682},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2388576.2388608},
+doi = {10.1145/2388576.2388608},
+abstract = {In this work we show how data vital to information and network security management can be obtained, relatively easily by basic traffic monitoring and analysis. We introduce a new traffic analysis technique, category transform, to extract more useful information from available data and show the means and significance of looking at traffic characteristics at greater detail.},
+booktitle = {Proceedings of the Fifth International Conference on Security of Information and Networks},
+pages = {201–204},
+numpages = {4},
+keywords = {traffic monitoring, network security, category transform},
+location = {Jaipur, India},
+series = {SIN '12}
 }
+
+@inproceedings{10.5555/3432601.3432608,
+author = {Boldt, Kay and Kent, Kenneth B. and Herpers, Rainer},
+title = {Investigation of encrypted and obfuscated network traffic utilizing machine learning},
+year = {2020},
+publisher = {IBM Corp.},
+address = {USA},
+abstract = {This paper utilizes machine learning to investigate the classification of encryption applied to network traffic and the underlying activities. It is firstly motivated by the difficulty of traditional traffic classification caused by additional encryption as ports and headers are hidden. Secondly, the results also present the effectiveness of currently available privacy-enhancing technologies. A new dataset is created, containing Pure (without additional encryption), Tor, Tor with obfuscation, VPN and VPN+Tor network traffic. Additionally, there are five different activities performed during each kind of traffic recording, namely audio streaming, browsing, P2P/SFTP file transfers and video conferencing. The traffic is classified by extracting features based on flows calculated by ARGUS and CICFlowMeter, combining three classifiers with seven feature selection algorithms. The results for the classification of the encryption clearly indicate the possibility of using this detection system in a modified fashion within a practical application. For the detection of activities inside encrypted network traffic, the results show that the disguise is ineffective. Overall, this reveals the need to improve the resistance of commonly used techniques for the protection of network traffic against machine learning.},
+booktitle = {Proceedings of the 30th Annual International Conference on Computer Science and Software Engineering},
+pages = {43–52},
+numpages = {10},
+keywords = {VPN, machine learning, tor},
+location = {Toronto, Ontario, Canada},
+series = {CASCON '20}
+}
+
+@article{10.1109/TNET.2014.2320577,
+author = {Zhang, Jun and Chen, Xiao and Xiang, Yang and Zhou, Wanlei and Wu, Jie},
+title = {Robust network traffic classification},
+year = {2015},
+issue_date = {August 2015},
+publisher = {IEEE Press},
+volume = {23},
+number = {4},
+issn = {1063-6692},
+url = {https://doi.org/10.1109/TNET.2014.2320577},
+doi = {10.1109/TNET.2014.2320577},
+abstract = {As a fundamental tool for network management and security, traffic classification has attracted increasing attention in recent years. A significant challenge to the robustness of classification performance comes from zero-day applications previously unknown in traffic classification systems. In this paper, we propose a new scheme of Robust statistical Traffic Classification (RTC) by combining supervised and unsupervised machine learning techniques to meet this challenge. The proposed RTC scheme has the capability of identifying the traffic of zero-day applications as well as accurately discriminating predefined application classes. In addition, we develop a new method for automating the RTC scheme parameters optimization process. The empirical study on real-world traffic data confirms the effectiveness of the proposed scheme. When zero-day applications are present, the classification performance of the new scheme is significantly better than four state-of-the-art methods: random forest, correlation-based classification, semi-supervised clustering, and one-class SVM.},
+journal = {IEEE/ACM Trans. Netw.},
+month = {aug},
+pages = {1257–1270},
+numpages = {14},
+keywords = {zero-day applications, traffic classification, semi-supervised learning}
+}
+
+@article{scikit-learn,
+  title={Scikit-learn: Machine Learning in {P}ython},
+  author={Pedregosa, F. and Varoquaux, G. and Gramfort, A. and Michel, V.
+          and Thirion, B. and Grisel, O. and Blondel, M. and Prettenhofer, P.
+          and Weiss, R. and Dubourg, V. and Vanderplas, J. and Passos, A. and
+          Cournapeau, D. and Brucher, M. and Perrot, M. and Duchesnay, E.},
+  journal={Journal of Machine Learning Research},
+  volume={12},
+  pages={2825--2830},
+  year={2011}
+}
+
+@misc{ Wireshark,
+       author = "Wireshark Foundation. 2024.",
+       title = "https://www.wireshark.org/",
+       year = "Wireshark." }
