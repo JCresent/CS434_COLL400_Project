@@ -10,7 +10,9 @@ from sklearn.utils import resample
 from seaborn import heatmap
 
 from utils import RAND_ST, compare_classes
-MAX_ITER = 1000
+import GraphModels
+
+MAX_ITER = 2000
 
 
 def pre_process(train_data, test_data):
@@ -91,17 +93,7 @@ def make_nn(X, y, X_test, y_test):
 
 def predict_and_show(model, X_test, y_test):
     test_pred = model.predict(X_test)
-    test_score = accuracy_score(test_pred, y_test)
-    print("score on test data: ",test_score)
-
-    y_names = ["ChatGPT","Blackboard","LinkedIn"]
-    confusion_matrix, accuracy = compare_classes(y_test, test_pred, y_names)
-    print(confusion_matrix)
-
-    heatmap(confusion_matrix, cmap='Purples',
-            vmin=0, vmax=800,
-            annot=True, fmt='.2f',
-            xticklabels=y_names, yticklabels=y_names)
+    graph = GraphModels.Graphs(X_test, y_test, test_pred)
     plt.show()
 
 
