@@ -2,11 +2,11 @@
 __pycache__
 
 #Latex Workshop stuff
-.aux
-.bbl
-.blg
-.fdb_latexmk
-.fls
-.log
-.out
-.synctex.gz
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
