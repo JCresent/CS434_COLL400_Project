@@ -38,7 +38,7 @@ Accurately Identifying web traffic destination and origins is crucial for the ef
 analysis of network packets. 
 We monitored and analyzed web traffic data from ChatGPT, Blackboard, and Linkedin, with the objective 
 of building models which will be able to predict the web traffic origin of a specific packet. The collection of data was performed
-using wireshark, then the data was reformatted to eliminate bias and get more accurate results.
+using Wireshark, then the data was reformatted to eliminate bias and get more accurate results.
 Using the collected data we then trained four models which had varying levels of accuracy, Logistic Regression (56\%), 
 K-Nearest Neighbors (77\%), Random Forest (78\%), and finally a neural
 network (80\%). This project shows the importance of machine learning within the field of 
@@ -94,7 +94,7 @@ This section presents the methodology for how this project goes about capturing 
  This data contains information on time taken for packet to send and arrive, protocols used, size of each packet, and other fields such as more information on the packet and the source IP address. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (ie. Ethernet, Wifi, etc.). 
  The many applications and ease of use of Wireshark make it a great tool for this project.
  
- The process for this project (shown in Figure 1) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
+ The process for this project (shown in figure \ref{fig:dataCollection}) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
 
  \subsubsection{Data Collection}
 To commence the collection of our data, we open Wireshark and select a network connection. 
@@ -109,7 +109,7 @@ the collected data must be processed prior to model training.
 
 
 \subsubsection{Feature Selection}
-The data collection process using Wireshark yields a dataset containing seven distinct features shown in Figure 2. 
+The data collection process using Wireshark yields a dataset containing seven distinct features shown in figure \ref{fig:wireshark}. 
 \begin{itemize}
   \item \textbf{Packet Number}: An integer representing the order in which the packets were captured during the Wireshark session. Provides insight on the order of the packets on the network interface. 
   \item \textbf{Time}: A floating point value representing the relative timestamp for each packet since the start of the Wireshark session. Similar to packet number, the time feature provides a better understanding of the packet order yet is more precise.
@@ -120,9 +120,9 @@ The data collection process using Wireshark yields a dataset containing seven di
   \item \textbf{Info}: A string value containing more information pertaining to a packet. This value can vary heavily between packets.
 \end{itemize} 
 As the objective of this project is to predict the origin of web traffic, both source and destination are excluded from the dataset used to train the models. 
-Similairly, the "info" feature is also removed from our train data as further testing revealed that the feature led to extraneous noise in our dataset. 
+Similarly, the "info" feature is also removed from our train data as further testing revealed that the feature led to extraneous noise in our dataset. 
 Consequently, the features selected for training and testing the models are Time, Length, and Protocol. The Protocol feature is converted to an integer for compatibility with 
-the models using a dictionary to map protocol names to a corresponding numerical representation (e.g., 'TCP': 0, 'QUIC': 1, 'TLSv1.2': 2) as shown in Figure 3.  Additionally, a categorical variable titled "Website" 
+the models using a dictionary to map protocol names to a corresponding numerical representation (e.g., 'TCP': 0, 'QUIC': 1, 'TLSv1.2': 2) as shown in figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
 is created which displays which website the packet originated (e.g., LinkedIn, ChatGPT, Blackboard). The "Website" feature acts as the target variable and allows 
 the models to detect relationships between the packets and their corresponding web traffic origin. 
 
@@ -130,12 +130,12 @@ the models to detect relationships between the packets and their corresponding w
 To maintain normalized representation in all the collected datasets, a process of data harmonization 
 was applied after collecting the necessary data. The dataset with the minimum number of observations is identified and accounted for when
 truncating the remaining two datasets. Subsequently, the three datasets are combined and rearranged to minimize bias while training each of our models.
-This process ensures a balanced yet unbiased dataset that maximizes the effectiveness of our models. Figure 3 pesents the refined data following the data preparation. 
+This process ensures a balanced yet unbiased dataset that maximizes the effectiveness of our models. Figure \ref{fig:webTraffic} presents the refined data following the data preparation. 
 \begin{figure}[htp] % h: here, t: top, p: bottom
   \centering
   \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/fullDataDiagram.png}
   \caption{Processed Web Traffic Data}
-  \label{fig:wireshark}
+  \label{fig:webTraffic}
 \end{figure}
 
 
@@ -155,7 +155,7 @@ To analyze the data further, we put the results from our model into a confusion 
 \subsubsection{K-Nearest Neighbors}
 
 \subsubsection{Random Forest}
-A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in figure 3).
+A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in figure \ref{fig:RFExample}).
 
 Advantages of Random Forest Models:
 \begin{enumerate}
