@@ -11,7 +11,7 @@
 % This is the preamble; include packages as you see fit.
 % Here are a few recommendations:
 % \usepackage{color}
-% \usepackage{graphicx}
+\usepackage{graphicx}
 % \usepackage[labelformat=simple]{subcaption}
 % \usepackage{xspace}
 % \usepackage{multirow}
@@ -75,20 +75,39 @@ This project investigates a variety of machine learning algorithms to see which 
 This section presents the methodology for how this project goes about capturing network packet data, analyzing the data, and classifying it based on its website of origin.
 
 \subsection{Capturing Data}
-\subsubsection{Wireshark}
 
-\subsubsection{Data Collection}
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{Figures_and_Graphs/webCollectionDiagram.png}
+  \caption{Wireshark Data Collection Process}
+  \label{fig:dataCollection}
+\end{figure*}
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/wiresharkFigure.png}
+  \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/wiresharkDataFigure.png}
+  \caption{Wireshark interface and example of captured data}
+  \label{fig:wireshark}
+\end{figure*}
+\subsubsection{Network analysis tool} For this project, the tool chosen and used was Wireshark \cite{Wireshark}, a widely used network protocol analyzer. Wireshark is capable of capturing and analyzing network packets, and is able to provide a detailed
+ view of the packets exchanged between the client and server. Wireshark offers a broad variety of features that allow for users to capture, decode, and analyze network packets. It shows the packet data in a human-readable format, and provides a detailed view of the packet's contents.
+ This data contains information on time taken for packet to send and arrive, protocols used, size of each packet, and other fields such as more information on the packet and the source IP address. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (ie. Ethernet, Wifi, etc.). 
+ The many applications and ease of use of Wireshark make it a great tool for this project.
+ 
+ The process for this project (shown in Figure 1) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
+
+ \subsubsection{Data Collection}
 To commence the collection of our data, we open Wireshark and select a network connection. 
 In this project we established a connection the College of William and Mary's network interface (en0). In order to isolate the web traffic in order to specifically collect 
 packets that we are analyzing, the capture filter functionality is utilized. The website of interest is then visited in the web browser which causes Wireshark to begin collecting the packets being exchanged.
-After collecting sufficient packets, the data is then converted into a Comma Seperated Values (CSV). This process of data collection is performed for Blackboard, LinkedIn, and ChatGPT resulting in the creation of 
+After collecting sufficient packets, the data is then converted into a Comma Separated Values (CSV). This process of data collection is performed for Blackboard, LinkedIn, and ChatGPT resulting in the creation of 
 three distinct files. 
 
 \subsection{Data Preparation and Processing}
 To maintain normalized representation in all the collected datasets, a process of data harmonization 
 was applied after collecting the necessary data. The dataset with the minimum number of observations is identified and accounted for when
 truncating the remaining two datasets. Subsequently, the three datasets are combined and rearranged to minimize bias while training each of our models.
-This process ensures a balanced yet unbaised dataset that maximizes the effectivness of our models.
+This process ensures a balanced yet unbiased dataset that maximizes the effectiveness of our models.
 
 
 
@@ -130,9 +149,9 @@ The equation for \textbf{Precision}: \\
 \[
 Accuracy= \frac{TP}{TP + FP}
 \]
-Accuracy is the score that rates the effectivness of a model at classification overall (ie. how many it predicited correctly out of the total set). 
+Accuracy is the score that rates the effectiveness of a model at classification overall (ie. how many it predicted correctly out of the total set). 
 
-Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores accross all classes.
+Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores across all classes.
 
 Recall is the calculation of how many the model correctly classified within a class (ie. how many truly belong in that class in the entire dataset). 
 Precision is the calculation of how many the model correctly classified within a class (ie. can be thought of as class accuracy).
