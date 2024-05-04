@@ -85,16 +85,20 @@ After collecting sufficient packets, the data is then converted into a Comma Sep
 three distinct files. 
 
 \subsection{Data Preparation and Processing}
+In order to ensure the integrity and reliability of our models,
+the collected data must be processed prior to model training.
+
+
+\subsubsection{Feature Selection}
+
+
+
+\subsubsection{Data Formatting}
 To maintain normalized representation in all the collected datasets, a process of data harmonization 
 was applied after collecting the necessary data. The dataset with the minimum number of observations is identified and accounted for when
 truncating the remaining two datasets. Subsequently, the three datasets are combined and rearranged to minimize bias while training each of our models.
 This process ensures a balanced yet unbaised dataset that maximizes the effectivness of our models.
 
-
-
-\subsubsection{Feature Selection}
-
-\subsubsection{Data Formatting}
 
 \subsection{Employed models}
 \subsubsection{Logistic Regression (Baseline)}
