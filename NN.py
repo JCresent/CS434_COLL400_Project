@@ -10,6 +10,7 @@ from sklearn.utils import resample
 from seaborn import heatmap
 
 from utils import RAND_ST, compare_classes
+MAX_ITER = 1000
 
 
 def pre_process(train_data, test_data):
@@ -35,7 +36,7 @@ def pre_process(train_data, test_data):
 
 
 def grid_search(X, y):
-    mlp = MLPClassifier(random_state=RAND_ST, max_iter=1000)
+    mlp = MLPClassifier(random_state=RAND_ST, max_iter=MAX_ITER)
 
     # real params for initial large gridsearch
     parameters = {
@@ -74,8 +75,22 @@ def grid_search(X, y):
     return gs
 
 
-def predict_and_show(gs, X_test, y_test):
-    test_pred = gs.predict(X_test)
+def make_nn(X, y, X_test, y_test):
+    # values obtained from gridsearch
+    mlp = MLPClassifier(
+        activation="logistic",
+        solver="lbfgs",
+        alpha=0.1,
+        hidden_layer_sizes=(60),
+        random_state=RAND_ST,
+        max_iter=MAX_ITER
+    )
+    mlp.fit(X,y)
+    return mlp
+
+
+def predict_and_show(model, X_test, y_test):
+    test_pred = model.predict(X_test)
     test_score = accuracy_score(test_pred, y_test)
     print("score on test data: ",test_score)
 
@@ -94,6 +109,7 @@ def run_NN(train_data, test_data):
     print("Starting Neural Network")
 
     X, y, X_test, y_test = pre_process(train_data, test_data)
-    gs = grid_search(X, y)
-    predict_and_show(gs, X_test, y_test)
+    # model = grid_search(X, y)
+    model = make_nn(X, y, X_test, y_test)
+    predict_and_show(model, X_test, y_test)
 

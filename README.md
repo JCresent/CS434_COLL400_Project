@@ -11,3 +11,4 @@
 * 04-05-24
     * 20 was the best
     * Going to try 20-75 node layer gridsearch, increasing by 5s
+    * Seems like it's gotta be lbfgs or adam as solver

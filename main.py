@@ -43,8 +43,8 @@ def csv_dir_to_df(dir_path):
 
 
 def get_data(dataset, size=0):
-    chatgpt_df      = csv_dir_to_df("Data/" + dataset + "/LinkedIn")
-    linkedin_df     = csv_dir_to_df("Data/" + dataset + "/ChatGPT")
+    chatgpt_df      = csv_dir_to_df("Data/" + dataset + "/ChatGPT")
+    linkedin_df     = csv_dir_to_df("Data/" + dataset + "/LinkedIn")
     blackboard_df   = csv_dir_to_df("Data/" + dataset + "/Blackboard")
     
     sampleSize = min(len(chatgpt_df), len(blackboard_df), len(linkedin_df))
@@ -53,8 +53,8 @@ def get_data(dataset, size=0):
     linkedin_df     = resample(linkedin_df, replace=False, n_samples=sampleSize, random_state=RAND_ST)
     blackboard_df   = resample(blackboard_df, replace=False, n_samples=sampleSize, random_state=RAND_ST)
 
-    linkedin_df["Website"] = "LinkedIn"
     chatgpt_df["Website"] = "ChatGPT"
+    linkedin_df["Website"] = "LinkedIn"
     blackboard_df["Website"] = "Blackboard"
 
     combined = pd.concat([chatgpt_df, linkedin_df, blackboard_df])
