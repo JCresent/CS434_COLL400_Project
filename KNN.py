@@ -73,7 +73,7 @@ def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame 
     if sizeOfDataFrame == 0:
         sizeOfDataFrame = len(numericData)
     downSampledData = resample(numericData,replace=False, n_samples=sizeOfDataFrame,random_state=42)
-    #print(downSampledData)
+    print(downSampledData)
     return downSampledData
 
 

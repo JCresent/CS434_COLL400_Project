@@ -83,7 +83,7 @@ class Graphs:
         ax.xaxis.set_ticklabels(np.unique(self.predicted)); ax.yaxis.set_ticklabels(np.unique(self.predicted))
         return 
 
-
+  
 
 
 
