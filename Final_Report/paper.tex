@@ -142,11 +142,37 @@ This process ensures a balanced yet unbiased dataset that maximizes the effectiv
 
 
 \subsection{Employed models}
+For this project, we required a classification model that would be able to accurately predict the website of origin for a given packet. We chose to employ three different models: K-Nearest Neighbors, Random Forest, and Neural Network. The reason we had selected more than one model was to be able to effectively compare the performance of each and determine which was the most effective for our solution. 
+These models were chosen for their abilities to classify data and their potential to accurately predict the website of origin for a given packet. We also used a baseline model, Logistic Regression, to also compare the performance of the other models to a more simple, linear model.
 \subsubsection{Logistic Regression (Baseline)}
+As a starting point, we employed the Logistic Regression model as a baseline for our data analysis. Logistic regression is a statistical method used for binary classification tasks, where the goal is to predict the probability of an event happening or not happening.
+It was understoof initiallly that this model may not be an ideal fit for our data, due to the regressions binary nature having more than two classifications is not ideal.
+However, for our purposes this was an excellent baseline. It was important for us to first visualize what features define network traffic so that we could further model around them, and the logistic regression was the most efficient choice for that.
+Our model returned us an accuracy score of .56, or 56\%, which is less than ideal but not entirely unexpected.
+To analyze the data further, we put the results from our model into a confusion matrix. With this we were able to see that the model predicted Blackboard quite well, atleast in comparison to ChatGPT and Linkedin which were far poorer.
+
 
 \subsubsection{K-Nearest Neighbors}
 
 \subsubsection{Random Forest}
+A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in figure 3).
+
+Advantages of Random Forest Models:
+\begin{enumerate}
+  \item \textbf{Ability to handle complex features}: Random forests have the ability to handle complex features, such as time and protocols in the case of network packets, and the relationships between them, which can be very important in classifying network traffic.
+  \item \textbf{High accuracy}: Random forests diminishes the problem of overfitting that can occur in decision trees, and can achieve higher accuracy, helping to more accurately determine website origins of a packet.
+  \item \textbf{Feature importance}: Random forests can provide insight into which features are most important in the classification process, such as protocol vs time in classifying websites for this project.
+  \item \textbf{Scalability}: Random forests can be scaled to handle much larger datasets, which can be very important for network traffic which can receive a high volume of packet data extremely quick.
+\end{enumerate}
+
+The library used for the Random Forest model was scikit-learn \cite{scikit-learn}. Sci-kit learn's implementation of Random Forests utilize aggregation to take a soft vote of the soft classifications (probability of the packet being from each class). Within soft voting, a weighted average of the probabilities from the classification are taken, and the class with the highest probability is chosen as the final classification.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=9cm]{Figures_and_Graphs/RandomForestExample.png}
+  \caption{Random Forest model structure example}
+  \label{fig:RFExample}
+\end{figure}
 
 \subsubsection{Neural Network}
 \section{Evaluation}
@@ -175,12 +201,13 @@ The equation for \textbf{Precision}: \\
 \[
 Accuracy= \frac{TP}{TP + FP}
 \]
+\\
 Accuracy is the score that rates the effectiveness of a model at classification overall (ie. how many it predicted correctly out of the total set). 
 
 Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores across all classes.
 
-Recall is the calculation of how many the model correctly classified within a class (ie. how many truly belong in that class in the entire dataset). 
-Precision is the calculation of how many the model correctly classified within a class (ie. can be thought of as class accuracy).
+Recall is the calculation of how many classifications the model got correct (ie. how many truly belong in that class in the entire dataset). 
+Precision is the calculation of how many classifications truly belong to each class (ie. can be thought of as class accuracy).
 
 
 \subsection{Model Comparison and Evaluation Results}
