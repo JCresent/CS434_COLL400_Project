@@ -131,7 +131,7 @@ To maintain normalized representation in all the collected datasets, a process o
 was applied after collecting the necessary data. The dataset with the minimum number of observations is identified and accounted for when
 truncating the remaining two datasets. Subsequently, the three datasets are combined and rearranged to minimize bias while training each of our models.
 This process ensures a balanced yet unbiased dataset that maximizes the effectiveness of our models. Figure \ref{fig:webTraffic} presents the refined data following the data preparation. 
-\begin{figure}[htp] % h: here, t: top, p: bottom
+\begin{figure}[htp] 
   \centering
   \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/fullDataDiagram.png}
   \caption{Processed Web Traffic Data}
@@ -166,6 +166,13 @@ Characteristics of Logistic Regression:
 \subsubsection{K-Nearest Neighbors}
 K-Nearest Neighbors (KNN) is a supervised learning model which classifies data points
 based on their proximity to a specified number (k) of existing data points.
+\begin{figure}[htp] 
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/ActualClassifiedPacketsScatterpng.png}
+  \caption{K-Nearest Neighbor model structure example}
+  \label{fig:actualPacketScatter}
+\end{figure}
+
 The implementation process is as followed: 
 \begin{enumerate}
   \item \textbf{Optimization and Training}: Prior to training the model, the optimal number of neighbors (k) for the model is identified using K-Fold cross validation. This technique involves dividing the training data into multiple folds and utilizing one fold for testing while the remaining ones are used for training. For every fold, a KNN model is trained with a specified k value and the accuracy (external validation) is calculated. Multiple different k values are tested using this process and the k value that yields the highest average external validation is used in the final model. After the optimal k value is calculated, the model achieved an accuracy of 97\% on the testing data. 
