@@ -81,15 +81,24 @@ def grid_search(X, y):
 
 def make_nn(X, y, X_test, y_test):
     # values obtained from gridsearch
+    # mlp = MLPClassifier(
+    #     activation="logistic",
+    #     solver="lbfgs",
+    #     alpha=0.1,
+    #     hidden_layer_sizes=(60),
+    #     random_state=RAND_ST,
+    #     max_iter=MAX_ITER
+    # )
     mlp = MLPClassifier(
-        activation="logistic",
-        solver="lbfgs",
-        alpha=0.1,
-        hidden_layer_sizes=(60),
+        activation="relu",
+        solver="adam",
+        alpha=0.0001,
+        hidden_layer_sizes=(9),
         random_state=RAND_ST,
         max_iter=MAX_ITER
     )
     mlp.fit(X,y)
+    mlp.score(X, y)
     return mlp
 
 
@@ -105,7 +114,7 @@ def run_NN(train_data, test_data):
     print("Starting Neural Network")
 
     X, y, X_test, y_test = pre_process(train_data, test_data)
-    model = grid_search(X, y)
-    # model = make_nn(X, y, X_test, y_test)
+    # model = grid_search(X, y)
+    model = make_nn(X, y, X_test, y_test)
     predict_and_show(model, X_test, y_test)
 
