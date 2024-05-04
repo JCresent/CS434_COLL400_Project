@@ -153,6 +153,13 @@ To analyze the data further, we put the results from our model into a confusion 
 
 
 \subsubsection{K-Nearest Neighbors}
+K-Nearest Neighbors (KNN) is a supervised learning model which classifies data points
+based on their proximity to a specified number (k) of existing data points.
+The implementation process is as followed: 
+\begin{enumerate}
+  \item \textbf{Optimization and Training}: Prior to training the model, the optimal number of neighbors (k) for the model is identified using K-Fold cross validation. This technique involves dividing the training data into multiple folds and utilizing one fold for testing while the remaining ones are used for training. For every fold, a KNN model is trained with a specified k value and the accuracy (external validation) is calculated. Multiple different k values are tested using this process and the k value that yields the highest average external validation is used in the final model. After the optimal k value is calculated, the model achieved an accuracy of 97\% on the testing data. 
+  \item \textbf{Evaluating Model}: In order to assess the effectiveness of the model, an independent dataset containing 2000 packets was collected and evaluated. Having the model evaluate a seperate unseen dataset reveals a more realistic measurement of the accuracy of our model. After evaluating this dataset, the KNN model achieves an accuracy of 77\%.
+\end{enumerate}
 
 \subsubsection{Random Forest}
 A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in figure 3).
