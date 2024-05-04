@@ -168,6 +168,13 @@ The execution of this model was rather simple: splitting the data into training 
 \end{figure}
 
 \subsubsection{K-Nearest Neighbors}
+K-Nearest Neighbors (KNN) is a supervised learning model which classifies data points
+based on their proximity to a specified number (k) of existing data points.
+The implementation process is as followed: 
+\begin{enumerate}
+  \item \textbf{Optimization and Training}: Prior to training the model, the optimal number of neighbors (k) for the model is identified using K-Fold cross validation. This technique involves dividing the training data into multiple folds and utilizing one fold for testing while the remaining ones are used for training. For every fold, a KNN model is trained with a specified k value and the accuracy (external validation) is calculated. Multiple different k values are tested using this process and the k value that yields the highest average external validation is used in the final model. After the optimal k value is calculated, the model achieved an accuracy of 97\% on the testing data. 
+  \item \textbf{Evaluating Model}: In order to assess the effectiveness of the model, an independent dataset containing 2000 packets was collected and evaluated. Having the model evaluate a seperate unseen dataset reveals a more realistic measurement of the accuracy of our model. After evaluating this dataset, the KNN model achieves an accuracy of 77\%.
+\end{enumerate}
 
 \subsubsection{Random Forest}
 A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in figure \ref{fig:RFExample}).
@@ -226,7 +233,25 @@ Precision is the calculation of how many classifications truly belong to each cl
 
 
 \subsection{Model Comparison and Evaluation Results}
+The results in table \ref{tab:results} show that the neural network achieved the highest accuracy (80\%) and Macro F1 score (0.00). These results mean the model was the most effective at classifying the selected websites based on network packet data.
+This displays the neural network is much more effective at representing complex relationships in the data than the other models. 
 
+  \begin{table}[!h]
+    \begin{center}
+    \caption{Accuracy and Macro F1 Scores for Each Model}
+    \label{tab:results}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      Model & Accuracy & Macro F1 \\
+      \hline
+      Logistic Regression & 56\% & 0.00 \\
+      K-Nearest Neighbors & 77\% & 0.00 \\
+      Random Forest & 78\% & 0.00 \\
+      Neural Network & 80\% & 0.00 \\
+      \hline
+    \end{tabular}
+    \end{center}
+  \end{table}
 
 \section{Discussion \& Future Work}
 \subsection{Analysis of Results}
