@@ -10,6 +10,7 @@ from sklearn.model_selection import KFold, LeaveOneOut
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.utils import resample
 from sklearn.model_selection import train_test_split as tts
+from sklearn.metrics import f1_score
 
 import GraphModels
 
@@ -112,6 +113,14 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
     predictedClasses = model.predict(testData)
 
     graph = GraphModels.Graphs(testData,actualClasses,predictedClasses)
+    test_data = convertWireSharkData(testDataChatgpt,testDataBlackboard,testDataLinkedIn)
+
+    X_test = test_data.drop(columns="Website", axis=1)
+    y_test = test_data["Website"]
+    print("Accuracy score: ", model.score(X_test, y_test))
+    print("Macro F1 score: ", f1_score(y_test, model.predict(X_test), average='macro'))
+
+    
     
     
 
