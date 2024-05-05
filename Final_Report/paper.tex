@@ -65,7 +65,7 @@ This project investigates a variety of machine learning algorithms to see which 
   Four models were then trained and tested on this data: Logistic Regression, K-Nearest Neighbors, Random Forest, and Neural Network \cite{scikit-learn}. 
 
   A thorough evaluation of the models was conducted through testing and validation sets, hyperparameter optimization employing cross-validation and grid search, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
-  acheived the highest accuracy of $85\%$ and Macro F1 score of 84.
+  achieved the highest accuracy of $85\%$ and Macro F1 score of 84.
 
   These scores display the model's ability to accurately classify the selected websites based on captured network packet data.
 
@@ -269,7 +269,7 @@ There are 3 inputs from the input layer: $x_1, x_2, x_3$, and four required outp
 
 $$z = \sum_{i=1}^3(x_i \cdot w_i) + b$$
 
-Variables $w_i$ and $b$ correspond to weight and bias, respectivly. Both of these terms get set by the training process of the model, which we'll discuss shortly. 
+Variables $w_i$ and $b$ correspond to weight and bias, respectively. Both of these terms get set by the training process of the model, which we'll discuss shortly. 
 The resulting value, $z$, is the input to an {\it activation function}, which, depending on which is used, modifies and normalizes the output before it is passed to the next node. 
 
 $$output = activation(z)$$
@@ -341,13 +341,12 @@ The equation for \textbf{Precision}: \\
 Accuracy= \frac{TP}{TP + FP}
 \]
 \\
-Accuracy straightforwardly measures the probability of correctly identifying a packet based on the rate at which packets are correctly classified in the validation or test sets.
+Accuracy is the score that rates the effectiveness of a model at classification overall (ie. how many it predicted correctly out of the total set). 
 
-Macro F1 is more opaque in terms of being intuitively understood, but it's a harmonic average of each class's metrics of precision and recall, averaged across all classes
+Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores across all classes.
 
-Recall is the calculation of how many classifications the model got correct for a given class, out of the total number of packets truly from that class.
-
-Precision is the calculation of how many classifications that were marked as as class truly belong to each class.
+Recall is the calculation of how many the model correctly classified within a class (ie. how many truly belong in that class in the entire dataset). 
+Precision is the calculation of how many the model correctly classified within a class (ie. can be thought of as class accuracy).
 
 
 \subsection{Model Comparison and Evaluation Results}

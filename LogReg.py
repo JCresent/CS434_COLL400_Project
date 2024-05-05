@@ -119,6 +119,6 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
     return graph.confusionMatrix("LogReg Confusion Matrix"), graph.scatterPlot("Logistic Regression")
 
 model = trainData()
-test = testWMData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv",model)
+test = testWMData(chatGPTcsv,blackboardcsv,linkedIncsv,model)
 # trainedData = testWMData("lakeData/train/chatdata.csv","lakeData/train/blackboardData.csv","lakeData/train/linkedindata.csv",model)
 plt.show()
