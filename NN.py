@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
@@ -116,7 +116,19 @@ def make_nn(X, y, X_test, y_test):
         max_iter=MAX_ITER
     )
     mlp.fit(X,y)
-    mlp.score(X, y)
+    print("intercepts:")
+    for x in mlp.intercepts_:
+        print(x)
+
+    print("coefs:")
+    for x in mlp.coefs_:
+        print(x)
+
+    y_pred = mlp.predict(X_test)
+
+
+    print("score:")
+    mlp.score(X_test, y_test)
     return mlp
 
 
