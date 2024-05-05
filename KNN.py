@@ -88,13 +88,13 @@ def trainData():
     internalValiation = []
     externalValidation = []
 
-    for k in K_range:
+    # for k in K_range:
 
-        model = KNeighborsClassifier(n_neighbors=k, weights="distance")
-        # we need internalTemp and externalTemp values because you dont want to call the qualifier twice which would waste more time and memory
-        internalTemp, externalTemp = qualifier(model,X,y)
-        internalValiation.append(internalTemp)
-        externalValidation.append(externalTemp)
+    #     model = KNeighborsClassifier(n_neighbors=k, weights="distance")
+    #     # we need internalTemp and externalTemp values because you dont want to call the qualifier twice which would waste more time and memory
+    #     internalTemp, externalTemp = qualifier(model,X,y)
+    #     internalValiation.append(internalTemp)
+    #     externalValidation.append(externalTemp)
     print(f" the K range with the highest accuracy {12}, with an accuracy of: {97}%")
     highestAccuracyK = 12
     model = KNeighborsClassifier(n_neighbors=highestAccuracyK, weights="distance")
@@ -168,13 +168,14 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
     actualClasses = testData["Website"]
     testData = testData.drop("Website", axis = 1)
     predictedClasses = model.predict(testData)
-
+    conf = compare_classes(actualClasses,predictedClasses)
     graph = GraphModels.Graphs(testData,actualClasses,predictedClasses)
     
     
+    graph.confusionMatrix("KNN Confusion Matrix")
+    graph.scatterPlot("K-Nearest Neighbor")
 
-
-    return graph.confusionMatrix("KNN Confusion Matrix"), graph.scatterPlot("K-Nearest Neighbor")
+    return conf
     
 
 
@@ -184,6 +185,7 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
 
 model = trainData()
 test = testWMData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv",model)
+print(test)
 # trainedData = testWMData("lakeData/train/chatdata.csv","lakeData/train/blackboardData.csv","lakeData/train/linkedindata.csv",model)
 plt.show()
 
