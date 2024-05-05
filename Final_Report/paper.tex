@@ -429,10 +429,17 @@ In reality, the physical closeness of LinkedIn and Blackboard data made it hard 
 Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
 This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per figure \ref{fig:length_scatter}.
 
-
 \section{Discussion \& Future Work}
 \subsection{Analysis of Results}
 \subsection{Future Work}
+
+If we were to continue this research in the future, we'd want to explore some of the following areas.
+
+First and foremost, we'd want to use a more meaningful variable instead of the unadjusted Time field as one of our input features. While it's true that time could be more meaningful if there was a set length of time in which each session of wireshark data, even controlling for that doesn't completely eliminate bias from the variable. A better approach would be to use time since previous packet, by getting the time field from the packet indexed before, and taking a difference, for every packet in the dataset (except the first, of course, which would have to be excluded). If we were to do this approach, there's potential that the variance of delays in packets, combined with the length variable which we'd still be measuring, would give our models information as to the amount of data transfer happening in the website, which could be explanatory towards its class.
+
+Additionally, we would want to expand our dataset and collect data from more than three websites, with use cases across the Internet. Perheps if the model were trained on enough different types of sites, we'd be able to classify by website type, such as social media, shopping, etc. Then maybe the model would even be applicable to more domains that weren't even visited in the training data.
+
+Finally, instead of looking statically at individual packets, we could use a flow of, say, 20 packets as input to our model. This would give us access to more independent variables, such as average length, average packet delay, etc. Since network communication is a constant flow of packets, it's possible that zooming out in this way from the way our model is currently would provide more explanatory power.
 
 \section{Conclusion}
 
