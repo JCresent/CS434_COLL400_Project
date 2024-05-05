@@ -142,8 +142,8 @@ Example 2:
 There is no good reason to think this would help with classification, and even if it were to improve the accuracy with our test set, we have no ability to predict in good faith that this would always be the case, since there isn't a consistent semantic meaning.
 
 Consequently, the features selected for training and testing the models are time, length, and protocol. The protocol feature is converted to an integer for compatibility with 
-the models using a dictionary to map protocol names to a corresponding numerical representation (e.g., \texttt{TCP}: 0, \texttt{QUIC}: 1, \texttt{TLSv1.2}: 2) as shown in Figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
-is created which displays which website the packet originated (e.g., LinkedIn, ChatGPT, Blackboard). The "Website" feature acts as the target variable and allows 
+the models, using a dictionary to map protocol names to a corresponding numerical representation (e.g., \texttt{TCP}: 0, \texttt{QUIC}: 1, \texttt{TLSv1.2}: 2) as shown in Figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
+is created which displays from which website the packet originated  (e.g., LinkedIn, ChatGPT, Blackboard). The "Website" feature acts as the target variable and allows 
 the models to detect relationships between the packets and their corresponding web traffic origin. 
 
 \subsubsection{Data Formatting}
@@ -160,13 +160,13 @@ This process ensures a balanced yet unbiased dataset that maximizes the effectiv
 \end{figure*}
 
 \subsection{Employed models}
-For this project, we required a classification model that would be able to accurately predict the website of origin for a given packet. In the end, we chose to employ four different models: Logistic Regression K-Nearest Neighbors, Random Forest, and a Neural Network.
+For this project, we required a classification model that would be able to accurately predict the website of origin for a given packet. In the end, we chose to employ four different models: Logistic Regression, K-Nearest Neighbors, Random Forest, and a Neural Network.
 The reason we selected more than one model was to be able to effectively compare the performance of each and determine which was the most effective for our solution.
 We tested the models sequentially, learning lessons along the way about the format of the data, and what similarities and differences exist in the data that could be potentially exploited by a subsequent model.
 
 \subsubsection{Logistic Regression (Baseline)}
 As a starting point, we employed the Logistic Regression model as a baseline for our data analysis. Logistic regression is a statistical method used for binary classification tasks, where the goal is to predict the probability of an event happening or not happening.
-It was understood initially that this model may not be an ideal fit for our data; due to the regressions binary nature having more than two classifications is not ideal.
+It was understood initially that this model may not be an ideal fit for our data due to the regression's binary nature. Using a binary model while having more than two classifications in our data is not ideal.
 
 \begin{figure}[!h]
   \centering
@@ -177,15 +177,15 @@ It was understood initially that this model may not be an ideal fit for our data
 
 Characteristics of Logistic Regression:
 \begin{enumerate}
-  \item \textbf{Binary Outcome}: Logistic regression is used for binary classification tasks, where the outcome variable has only two possible outcome
-  \item \textbf{Linear Relationship}: Logistic regression assumes a linear relationship between the independent variables and the log-odds of the outcome
-  \item \textbf{Probabilistic Output}: Instead of predicting discrete classes directly, logistic regression predicts the probability that a given observation belongs to a particular class
-  \item \textbf{Interpretability}: Logistic regression coefficients represent the change in the log-odds of the outcome for a one-unit change in the corresponding independent variable, making it easy to interpret the impact of each variable on the outcome. This characteristic was especially important for our baseline
+  \item \textbf{Binary Outcome}: Logistic regression is used for binary classification tasks, where the outcome variable has only two possible outcomes.
+  \item \textbf{Linear Relationship}: Logistic regression assumes a linear relationship between the independent variables and the log-odds of the outcomes.
+  \item \textbf{Probabilistic Output}: Instead of predicting discrete classes directly, logistic regression predicts the probability that a given observation belongs to a particular class.
+  \item \textbf{Interpretability}: Logistic regression coefficients represent the change in the log-odds of the outcome for a one-unit change in the corresponding independent variable, making it easy to interpret the impact of each variable on the outcome. This characteristic was especially important for our baseline.
 \end{enumerate}
 
 The Logistic regression was an ideal choice for our baseline specifically because of its interpretability characteristics. We wanted to pick a model which would $(1)$ allow us the swiftest entry point into our approach and $(2)$ allow for us to not only have a simple foundation but a foundation from which we could improve upon.
 
-The execution of this model was rather simple: splitting the data into training and testing sets and executing a standard regression to be analyzed. This simplistic approach, as previously mentioned, allowed for us to inspect which features were most advantageous for us and more importantly which features we would continue to analyze.
+The execution of this model was rather simple: splitting the data into training and testing sets and executing a standard regression. This simplistic approach, as previously mentioned, allowed for us to inspect which features were most advantageous for us and more importantly which features we would continue to analyze.
 
 
 \subsubsection{K-Nearest Neighbors}
