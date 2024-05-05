@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import KFold
+from sklearn.metrics import confusion_matrix
 
 from sklearn.model_selection import KFold, LeaveOneOut
 from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
@@ -101,9 +101,6 @@ def trainData():
     model.fit(X, y)
     print(model.score(X,y))
     return model
-
-
-
 
 
 
