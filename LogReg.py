@@ -11,6 +11,8 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.utils import resample
 from sklearn.model_selection import train_test_split as tts
 
+import GraphModels
+
 
 
 protocolMap = {}
@@ -37,6 +39,8 @@ def compare_classes(actual, predicted, names=None):
     
     print('Accuracy = ' + format(accuracy, '.2f'))
     return conf_mat, accuracy
+
+
 def reformatInfoAndPacket(dataframe):
     protocols = dataframe["Protocol"].value_counts().index
 
@@ -50,6 +54,7 @@ def reformatInfoAndPacket(dataframe):
         return dataframe[["Time", "Protocol", "Length","Website"]]
     else:
         return dataframe[["Time", "Protocol", "Length"]]
+    
 
 def convertWireSharkData(chatGPTcsv,blackboardcsv, linkedIncsv, sizeOfDataFrame = 0):
     chatGPT = pd.read_csv(chatGPTcsv)
@@ -84,31 +89,36 @@ chatGPTcsv = "lakeData/train/4-8_chatGPT.csv"
 blackboardcsv = "lakeData/train/4-9_blackboard.csv"
 linkedIncsv = "lakeData/train/4-9_linkedin.csv"
 
-data = convertWireSharkData(chatGPTcsv,blackboardcsv,linkedIncsv )
+
+def trainData():
+    data = convertWireSharkData(chatGPTcsv,blackboardcsv,linkedIncsv )
+    X_df = data.drop(columns="Website").values
+    X = np.array(X_df)
+    y = data["Website"].astype("category").values
+    Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
+    logistic_model = LogisticRegression()
+    logistic_model.fit(Xtrain,ytrain)
+    logistic_model.score(Xtrain,ytrain)
+    y_pred = logistic_model.predict(Xtest)
+    print(compare_classes(ytest, y_pred))   
+    model = compare_classes(ytest, y_pred)
+    return logistic_model
 
 
+def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
+    testData = convertWireSharkData(testDataChatgpt,testDataBlackboard,testDataLinkedIn)
+    actualClasses = testData["Website"]
+    testData = testData.drop("Website", axis = 1)
+    predictedClasses = model.predict(testData)
+
+    graph = GraphModels.Graphs(testData,actualClasses,predictedClasses)
+    
+    
 
 
+    return graph.confusionMatrix("LogReg Confusion Matrix"), graph.scatterPlot("Logistic Regression")
 
-
-X_df = data.drop(columns="Website").values
-X = np.array(X_df)
-y = data["Website"].astype("category").values
-Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
-logistic_model = LogisticRegression()
-logistic_model.fit(Xtrain,ytrain)
-logistic_model.score(Xtrain,ytrain)
-y_pred = logistic_model.predict(Xtest)
-# print(f"-------------------------Train Data-----------------------------")
-print(compare_classes(ytest, y_pred))
-
-# print(f"---------------------------Test Data------------------------------------")
-
-WMdata = convertWireSharkData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv")
-actualClasses = WMdata["Website"]
-testData = WMdata.drop("Website", axis = 1)
-predictedClasses = logistic_model.predict(testData)
-confusionMatrix, accuracy = compare_classes(actualClasses,predictedClasses)
-print(confusionMatrix,accuracy)
-
-
+model = trainData()
+test = testWMData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv",model)
+# trainedData = testWMData("lakeData/train/chatdata.csv","lakeData/train/blackboardData.csv","lakeData/train/linkedindata.csv",model)
+plt.show()

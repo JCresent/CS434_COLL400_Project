@@ -38,7 +38,7 @@ Accurately Identifying web traffic destination and origins is crucial for the ef
 analysis of network packets. 
 We monitored and analyzed web traffic data from ChatGPT, Blackboard, and Linkedin, with the objective 
 of building models which will be able to predict the web traffic origin of a specific packet. The collection of data was performed
-using wireshark, then the data was reformatted to eliminate bias and get more accurate results.
+using Wireshark, then the data was reformatted to eliminate bias and get more accurate results.
 Using the collected data we then trained four models which had varying levels of accuracy, Logistic Regression (56\%), 
 K-Nearest Neighbors (77\%), Random Forest (78\%), and finally a neural
 network (80\%). This project shows the importance of machine learning within the field of 
@@ -94,7 +94,7 @@ This section presents the methodology for how this project goes about capturing 
  This data contains information on time taken for packet to send and arrive, protocols used, size of each packet, and other fields such as more information on the packet and the source IP address. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (ie. Ethernet, Wifi, etc.). 
  The many applications and ease of use of Wireshark make it a great tool for this project.
  
- The process for this project (shown in Figure 1) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
+ The process for this project (shown in figure \ref{fig:dataCollection}) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
 
  \subsubsection{Data Collection}
 To commence the collection of our data, we open Wireshark and select a network connection. 
@@ -104,23 +104,104 @@ After collecting sufficient packets, the data is then converted into a Comma Sep
 three distinct files. 
 
 \subsection{Data Preparation and Processing}
-To maintain normalized representation in all the collected datasets, a process of data harmonization 
-was applied after collecting the necessary data. The dataset with the minimum number of observations is identified and accounted for when
-truncating the remaining two datasets. Subsequently, the three datasets are combined and rearranged to minimize bias while training each of our models.
-This process ensures a balanced yet unbiased dataset that maximizes the effectiveness of our models.
-
+In order to ensure the integrity and reliability of our models,
+the collected data must be processed prior to model training.
 
 
 \subsubsection{Feature Selection}
+The data collection process using Wireshark yields a dataset containing seven distinct features shown in figure \ref{fig:wireshark}. 
+\begin{itemize}
+  \item \textbf{Packet Number}: An integer representing the order in which the packets were captured during the Wireshark session. Provides insight on the order of the packets on the network interface. 
+  \item \textbf{Time}: A floating point value representing the relative timestamp for each packet since the start of the Wireshark session. Similar to packet number, the time feature provides a better understanding of the packet order yet is more precise.
+  \item \textbf{Source}: A string value containing the internet protocol address of the device that the packet originated from. 
+  \item \textbf{Destination}: A string value containing the internet protocol address of the device that is receiving the packet. 
+  \item \textbf{Protocol}: A string value which contains the network protocol employed for the transmission of the packet. Three distinct protocols were identified within the datasets used in this project (QUIC, TCP and TLSv1.2).
+  \item \textbf{Length}: An integer representing the size of a packet in bits 
+  \item \textbf{Info}: A string value containing more information pertaining to a packet. This value can vary heavily between packets.
+\end{itemize} 
+As the objective of this project is to predict the origin of web traffic, both source and destination are excluded from the dataset used to train the models. 
+Similarly, the "info" feature is also removed from our train data as further testing revealed that the feature led to extraneous noise in our dataset. 
+Consequently, the features selected for training and testing the models are Time, Length, and Protocol. The Protocol feature is converted to an integer for compatibility with 
+the models using a dictionary to map protocol names to a corresponding numerical representation (e.g., 'TCP': 0, 'QUIC': 1, 'TLSv1.2': 2) as shown in figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
+is created which displays which website the packet originated (e.g., LinkedIn, ChatGPT, Blackboard). The "Website" feature acts as the target variable and allows 
+the models to detect relationships between the packets and their corresponding web traffic origin. 
 
 \subsubsection{Data Formatting}
+To maintain normalized representation in all the collected datasets, a process of data harmonization 
+was applied after collecting the necessary data. The dataset with the minimum number of observations is identified and accounted for when
+truncating the remaining two datasets. Subsequently, the three datasets are combined and rearranged to minimize bias while training each of our models.
+This process ensures a balanced yet unbiased dataset that maximizes the effectiveness of our models. Figure \ref{fig:webTraffic} presents the refined data following the data preparation. 
+\begin{figure}[htp] 
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/fullDataDiagram.png}
+  \caption{Processed Web Traffic Data}
+  \label{fig:webTraffic}
+\end{figure}
+
+
+
 
 \subsection{Employed models}
+For this project, we required a classification model that would be able to accurately predict the website of origin for a given packet. We chose to employ three different models: K-Nearest Neighbors, Random Forest, and Neural Network. The reason we had selected more than one model was to be able to effectively compare the performance of each and determine which was the most effective for our solution. 
+These models were chosen for their abilities to classify data and their potential to accurately predict the website of origin for a given packet. We also used a baseline model, Logistic Regression, to also compare the performance of the other models to a more simple, linear model.
 \subsubsection{Logistic Regression (Baseline)}
+As a starting point, we employed the Logistic Regression model as a baseline for our data analysis. Logistic regression is a statistical method used for binary classification tasks, where the goal is to predict the probability of an event happening or not happening.
+It was understoof initiallly that this model may not be an ideal fit for our data; due to the regressions binary nature having more than two classifications is not ideal.
+
+Characteristics of Logistic Regression:
+\begin{enumerate}
+  \item \textbf{Binary Outcome}: Logistic regression is used for binary classification tasks, where the outcome variable has only two possible outcome
+  \item \textbf{Linear Relationship}: Logistic regression assumes a linear relationship between the independent variables and the log-odds of the outcome
+  \item \textbf{Probablistic Output}: Instead of predicting discrete classes directly, logistic regression predicts the probability that a given observation belongs to a particular class
+  \item \textbf{Interpretability}: Logistic regression coefficients represent the change in the log-odds of the outcome for a one-unit change in the corresponding independent variable, making it easy to interpret the impact of each variable on the outcome. This characteristic was especially important for our baseline
+\end{enumerate}
+
+The Logistic regression was such an ideal choice for our baseline specifically because of its interpretability characteristics. We wanted to pick a model which would $(1)$ allow us the swiftest entry point into our approach and $(2)$ allow for us to not only have a simple foundation but a foundation from which we could improve upon.
+
+The execution of this model was rather simple: splitting the data into training and testing sets and executing a standard regression to be analyzed. This simplistic approach, as previously mentioned, allowed for us to inspect which features were most advantageous for us and more importantly which features we would continue to analyze.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=9cm]{Figures_and_Graphs/LogReg.png}
+  \caption{Logistic Regression model structure example}
+  \label{fig:RFExample}
+\end{figure}
 
 \subsubsection{K-Nearest Neighbors}
+K-Nearest Neighbors (KNN) is a supervised learning model which classifies data points
+based on their proximity to a specified number (k) of existing data points.
+\begin{figure}[htp] 
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/knnExample.png}
+  \caption{K-Nearest Neighbor model structure example}
+  \label{fig:ExampleKNN}
+\end{figure}
+
+The implementation process is as followed: 
+\begin{enumerate}
+  \item \textbf{Optimization and Training}: Prior to training the model, the optimal number of neighbors (k) for the model is identified using K-Fold cross validation. This technique involves dividing the training data into multiple folds and utilizing one fold for testing while the remaining ones are used for training. For every fold, a KNN model is trained with a specified k value and the accuracy (external validation) is calculated. Multiple different k values are tested using this process and the k value that yields the highest average external validation is used in the final model. After the optimal k value is calculated, the model achieved an accuracy of 97\% on the testing data. 
+  \item \textbf{Evaluating Model}: In order to assess the effectiveness of the model, an independent dataset containing 2000 packets was collected and evaluated. Having the model evaluate a seperate unseen dataset reveals a more realistic measurement of the accuracy of our model. After evaluating this dataset, the KNN model achieves an accuracy of 77\%.
+\end{enumerate}
 
 \subsubsection{Random Forest}
+A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in figure \ref{fig:RFExample}).
+
+Advantages of Random Forest Models:
+\begin{enumerate}
+  \item \textbf{Ability to handle complex features}: Random forests have the ability to handle complex features, such as time and protocols in the case of network packets, and the relationships between them, which can be very important in classifying network traffic.
+  \item \textbf{High accuracy}: Random forests diminishes the problem of overfitting that can occur in decision trees, and can achieve higher accuracy, helping to more accurately determine website origins of a packet.
+  \item \textbf{Feature importance}: Random forests can provide insight into which features are most important in the classification process, such as protocol vs time in classifying websites for this project.
+  \item \textbf{Scalability}: Random forests can be scaled to handle much larger datasets, which can be very important for network traffic which can receive a high volume of packet data extremely quick.
+\end{enumerate}
+
+The library used for the Random Forest model was scikit-learn \cite{scikit-learn}. Sci-kit learn's implementation of Random Forests utilize aggregation to take a soft vote of the soft classifications (probability of the packet being from each class). Within soft voting, a weighted average of the probabilities from the classification are taken, and the class with the highest probability is chosen as the final classification.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=9cm]{Figures_and_Graphs/RandomForestExample.png}
+  \caption{Random Forest model structure example}
+  \label{fig:RFExample}
+\end{figure}
 
 \subsubsection{Neural Network}
 \section{Evaluation}
@@ -149,16 +230,35 @@ The equation for \textbf{Precision}: \\
 \[
 Accuracy= \frac{TP}{TP + FP}
 \]
+\\
 Accuracy is the score that rates the effectiveness of a model at classification overall (ie. how many it predicted correctly out of the total set). 
 
 Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores across all classes.
 
-Recall is the calculation of how many the model correctly classified within a class (ie. how many truly belong in that class in the entire dataset). 
-Precision is the calculation of how many the model correctly classified within a class (ie. can be thought of as class accuracy).
+Recall is the calculation of how many classifications the model got correct (ie. how many truly belong in that class in the entire dataset). 
+Precision is the calculation of how many classifications truly belong to each class (ie. can be thought of as class accuracy).
 
 
 \subsection{Model Comparison and Evaluation Results}
+The results in table \ref{tab:results} show that the neural network achieved the highest accuracy (80\%) and Macro F1 score (0.00). These results mean the model was the most effective at classifying the selected websites based on network packet data.
+This displays the neural network is much more effective at representing complex relationships in the data than the other models. 
 
+  \begin{table}[!h]
+    \begin{center}
+    \caption{Accuracy and Macro F1 Scores for Each Model}
+    \label{tab:results}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      Model & Accuracy & Macro F1 \\
+      \hline
+      Logistic Regression & 56\% & 0.00 \\
+      K-Nearest Neighbors & 77\% & 0.00 \\
+      Random Forest & 83\% & 82\% \\
+      Neural Network & 80\% & 0.00 \\
+      \hline
+    \end{tabular}
+    \end{center}
+  \end{table}
 
 \section{Discussion \& Future Work}
 \subsection{Analysis of Results}
