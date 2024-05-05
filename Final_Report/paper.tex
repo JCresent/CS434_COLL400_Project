@@ -97,7 +97,7 @@ This section presents the methodology for how this project goes about capturing 
  This data contains information on time taken for packet to send and arrive, protocols used, size of each packet, and other fields such as more information on the packet and the source IP address. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (i.e. Ethernet, Wi-Fi, etc.). 
  The many applications and ease of use of Wireshark make it a great tool for this project.
  
- The process for this project (shown in figure \ref{fig:dataCollection}) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
+ The process for this project (shown in Figure \ref{fig:dataCollection}) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
 
  \subsubsection{Data Collection}
 To commence the collection of our data, we open Wireshark and select a network connection. 
@@ -112,7 +112,7 @@ the collected data must be processed prior to model training.
 
 
 \subsubsection{Feature Selection}
-The data collection process using Wireshark yields a dataset containing seven distinct features shown in figure \ref{fig:Wireshark}. 
+The data collection process using Wireshark yields a dataset containing seven distinct features shown in Figure \ref{fig:Wireshark}. 
 \begin{itemize}
   \item \textbf{Packet Number}: An integer representing the order in which the packets were captured during the Wireshark session. Provides insight on the order of the packets on the network interface. 
   \item \textbf{Time}: A floating point value representing the relative timestamp for each packet since the start of the Wireshark session. Similar to packet number, the time feature provides a better understanding of the packet order yet is more precise.
@@ -142,7 +142,7 @@ Example 2:
 There is no good reason to think this would help with classification, and even if it were to improve the accuracy with our test set, we have no ability to predict in good faith that this would always be the case, since there isn't a consistent semantic meaning.
 
 Consequently, the features selected for training and testing the models are Time, Length, and Protocol. The Protocol feature is converted to an integer for compatibility with 
-the models using a dictionary to map protocol names to a corresponding numerical representation (e.g., \texttt{TCP}: 0, \texttt{QUIC}: 1, \texttt{TLSv1.2}: 2) as shown in figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
+the models using a dictionary to map protocol names to a corresponding numerical representation (e.g., \texttt{TCP}: 0, \texttt{QUIC}: 1, \texttt{TLSv1.2}: 2) as shown in Figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
 is created which displays which website the packet originated (e.g., LinkedIn, ChatGPT, Blackboard). The "Website" feature acts as the target variable and allows 
 the models to detect relationships between the packets and their corresponding web traffic origin. 
 
@@ -200,13 +200,13 @@ based on their proximity to a specified number (k) of existing data points.
 
 The implementation process is as follows: 
 \begin{enumerate}
-  \item \textbf{Optimization and Training}: Prior to training the model, the optimal number of neighbors (k) for the model is identified using K-Fold cross validation. This technique involves dividing the training data into multiple folds and utilizing one fold for validation while the remaining ones are used for training. For every fold, a KNN model is trained with a specified k value and the accuracy (external validation) is calculated. Multiple different k values are tested using this process and the k value that yields the highest average external validation is used in the final model. After the optimal k value is calculated, the model achieved an accuracy of 97\% on the training data. 
+  \item \textbf{Optimization and Training}: Prior to training the model, the optimal number of neighbors (k) for the model is identified using K-Fold cross validation. This technique involves dividing the training data into multiple folds and utilizing one fold for validation while the remaining ones are used for training. For every fold, a K-Nearest Neighbors model is trained with a specified k value and the accuracy (external validation) is calculated. Multiple different k values are tested using this process and the k value that yields the highest average external validation is used in the final model. After the optimal k value is calculated, the model achieved an accuracy of 97\% on the training data. 
   
-  \item \textbf{Evaluating Model}: In order to assess the effectiveness of the model, an independent dataset containing 2000 packets was collected and evaluated. Having the model evaluate a separate unseen dataset reveals a more realistic measurement of the accuracy of our model. After evaluating this dataset, the KNN model achieves an accuracy of 77\%.
+  \item \textbf{Evaluating Model}: In order to assess the effectiveness of the model, an independent dataset containing 2000 packets was collected and evaluated. Having the model evaluate a separate unseen dataset reveals a more realistic measurement of the accuracy of our model. After evaluating this dataset, the model achieves an accuracy of 77\%.
 \end{enumerate}
 
 \subsubsection{Random Forest}
-A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in figure \ref{fig:RFExample}).
+A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in Figure \ref{fig:RFExample}).
 
 Advantages of Random Forest Models:
 \begin{enumerate}
@@ -225,7 +225,7 @@ Advantages of Random Forest Models:
 
 The library used for the Random Forest model was scikit-learn \cite{scikit-learn}. Sci-kit learn's implementation of Random Forests utilize aggregation to take a soft vote of the soft classifications (probability of the packet being from each class). Within soft voting, a weighted average of the probabilities from the classification are taken, and the class with the highest probability is chosen as the final classification.
 
-Within random forest models, many hyperparameters can be fine tuned to optimize the model. For this project, we chose to optimize the hyperparameters for n estimators (number of trees in the forest), 
+Within random forest models, many hyperparameters can be fine-tuned to optimize the model. For this project, we chose to optimize the hyperparameters for n estimators (number of trees in the forest), 
 max depth (maximum depth (levels) in the tree), and min samples split (minimum samples within a node to be able to split it into children). In order to optimize all of these hyperparameters, we used a grid search to find the best combination of hyperparameters that would 
 yield the highest accuracy. Within the grid search, we also employed the cross validation technique of Kfold validation, which divides the training data into k number of folds. This process is repeated k times, with each fold being used as the validation set exactly once. The results from each fold are then averaged to produce a single estimation of model performance. Overall, after running for multiple different combinations of values for the 
 hyperparameters, the ones we decided to utilize, based on the highest test accuracy scores, were n estimators = 100, max depth = 13, and min samples split = 5. 
@@ -393,14 +393,14 @@ The model wasn't designed for this task, so a low accuracy makes sense.
     \label{fig:actual_scatter}
 \end{figure}
 
-As you can see from the difference between the logistic regression scatterplot in figure \ref{fig:log_reg_scatter} and the actual class scatterplot in figure \ref{fig:actual_scatter}, it seems the classification grouped packets mostly based on the time variable, which didn't result in very accurate results. We'll get into the specifics of the time variable's specific limitations shortly.
+As you can see from the difference between the logistic regression scatter plot in Figure \ref{fig:log_reg_scatter} and the actual class scatter plot in Figure \ref{fig:actual_scatter}, it seems the classification grouped packets mostly based on the time variable, which didn't result in very accurate results. We'll get into the specifics of the time variable's specific limitations shortly.
 
 Beyond the baseline logistic regression model, the other models all perform fairly similarly, in the high 70s and low 80s in terms of test accuracy.
 These numbers are good, but not great, for a number of reasons.
 
-First, as you can see from the Actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the Protocol feature. ChatGPT uses almost exclusively QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating chatGPT from either of the others trivially easy, but disambiguating Blackboard and LinkedIn relatively hard.
+First, as you can see from the Actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the Protocol feature. ChatGPT uses almost exclusively QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating ChatGPT from either of the others trivially easy, but disambiguating Blackboard and LinkedIn relatively hard.
 
-You'll notice in the heatmaps in figures \ref{fig:knn_heatmap}, \ref{fig:rf_heatmap}, and \ref{fig:nn_heatmap} that chatGPT is classified 100\% accurately by RF and NN, and is very close with KNN. 
+You'll notice in the heatmaps in Figures \ref{fig:knn_heatmap}, \ref{fig:rf_heatmap}, and \ref{fig:nn_heatmap} that ChatGPT is classified 100\% accurately by Random Forest and Neural Network, and is very close with K-Nearest Neighbors. 
 
 \begin{figure}
     \centering
@@ -424,7 +424,7 @@ You'll notice in the heatmaps in figures \ref{fig:knn_heatmap}, \ref{fig:rf_heat
 \end{figure}
 
 If all of our packets had their own protocols, we'd probably be able to use a simple decision tree with two splits and get nearly 100\% accuracy.
-In reality, the physical closeness of LinkedIn and Blackboard data made it hard for KNN to accurately guess based on neighbors, for the Random Forest to build meaningfully effective trees, and for the Neural Network to solve itself cleanly.
+In reality, the physical closeness of LinkedIn and Blackboard data made it hard for K-Nearest Neighbors to accurately guess based on neighbors, for the Random Forest to build meaningfully effective trees, and for the Neural Network to solve itself cleanly.
 
 \begin{figure}
     \centering
@@ -441,8 +441,8 @@ In reality, the physical closeness of LinkedIn and Blackboard data made it hard 
     \label{fig:length_scatter}
 \end{figure}
 
-Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
-This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per figure \ref{fig:length_scatter}.
+Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In Figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
+This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per Figure \ref{fig:length_scatter}.
 
 \subsection{Future Work}
 
@@ -477,14 +477,14 @@ These models could quickly and effectively be able to identify network traffic t
 \begin{figure}[!h]
   \centering
   \includegraphics[width=1\linewidth]{Figures_and_Graphs/PredictedPacketsScatterKNN.png}
-  \caption{KNN Predictions Scatterplot}
+  \caption{K-Nearest Neighbors Predictions Scatter plot}
   \label{fig:knn_scatter}
 \end{figure}
 
 \begin{figure}[!h]
   \centering
   \includegraphics[width=1\linewidth]{Figures_and_Graphs/PredictedPacketsScatterRF.png}
-  \caption{Random Forest Predictions Scatterplot}
+  \caption{Random Forest Predictions Scatter plot}
   \label{fig:rf_scatter}
 \end{figure}
 
