@@ -61,10 +61,10 @@ This project investigates a variety of machine learning algorithms to see which 
   Traffic classification is very significant in practice, if done accurately and effectively \cite{10.1109/TNET.2014.2320577}. For reasons mentioned previously, the observed capabilities of this and other projects 
   can be crucial for network administrators and security professionals, whom would examine the network for malicious traffic.
 
-  For this project, many sets of packet data were collected from three popular websites: ChatGPT, Blackboard, and LinkedIn. These sets were then merged into a single dataset, which was then split into training and testing sets. 
+  For this project, many sets of packet data were collected from three popular websites: ChatGPT, Blackboard, and LinkedIn. These sets were then merged into a single dataset, which was then split into training and validating sets. 
   Four models were then trained and tested on this data: Logistic Regression, K-Nearest Neighbors, Random Forest, and Neural Network \cite{scikit-learn}. 
 
-  A thorough evaluation of the models was conducted through testing and validation sets, hyperparameter optimization employing cross-validation and grid search, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
+  A thorough evaluation of the models was conducted through test sets, hyperparameter optimization employing cross-validation and grid search, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
   achieved the highest accuracy of $85\%$ and Macro F1 score of 84\%.
 
   These scores display the model's ability to accurately classify the selected websites based on captured network packet data.
