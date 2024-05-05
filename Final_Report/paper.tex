@@ -82,6 +82,7 @@ This section presents the methodology for how this project goes about capturing 
   \caption{Wireshark Data Collection Process}
   \label{fig:dataCollection}
 \end{figure*}
+
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.72\textwidth]{Figures_and_Graphs/wiresharkFigure.png}
@@ -89,6 +90,7 @@ This section presents the methodology for how this project goes about capturing 
   \caption{Wireshark interface and example of captured data}
   \label{fig:wireshark}
 \end{figure*}
+
 \subsubsection{Network analysis tool} For this project, the tool chosen and used was Wireshark \cite{Wireshark}, a widely used network protocol analyzer. Wireshark is capable of capturing and analyzing network packets, and is able to provide a detailed
  view of the packets exchanged between the client and server. Wireshark offers a broad variety of features that allow for users to capture, decode, and analyze network packets. It shows the packet data in a human-readable format, and provides a detailed view of the packet's contents.
  This data contains information on time taken for packet to send and arrive, protocols used, size of each packet, and other fields such as more information on the packet and the source IP address. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (ie. Ethernet, Wifi, etc.). 
@@ -385,7 +387,26 @@ You'll notice in the heatmaps in figures \ref{knn_heatmap}, \ref{rf_heatmap}, an
 If all of our packets had their own protocols, we'd probably be able to use a simple decision tree with two splits and get nearly 100\% accuracy.
 In reality, the physical closeness of LinkedIn and Blackboard data made it hard for KNN to accurately guess based on neighbors, for the Random Forest to build meaningfully effective trees, and for the Neural Network to solve itself cleanly.
 
-{\bf Do some data analysis to see what feature WAS useful for distinguishing BB and LI.}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Figures_and_Graphs/time_scatter.png}
+    \caption{Scatter Plot of the Time feature}
+    \label{fig:time_scatter}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Figures_and_Graphs/length_scatter.png}
+    \caption{Scatter Plot of the Length feature}
+    \label{fig:length_scatter}
+\end{figure}
+
+Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In figure \ref{time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
+This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per \ref{length_scatter}.
+
+
+
 
   \begin{table}[!h]
     \begin{center}
