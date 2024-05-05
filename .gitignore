@@ -4,8 +4,8 @@
 # python caching
 __pycache__
 
-# jupyter-notebook testing
-*.ipynb*
+# nb checkpoints
+.ipynb*
 
 # vim
 *.swp*
