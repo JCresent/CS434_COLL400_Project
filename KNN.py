@@ -23,7 +23,7 @@ def qualifier(model, X, y):
     internalValidation = []
     externalValidation = []
     # KFold object with 10 folds (adjust n_splits as needed)
-    kf = KFold(n_splits=10, shuffle=True, random_state=RAND_ST)
+    kf = KFold(n_splits=10, shuffle=True, random_state=42)
     for train_index, test_index in kf.split(X):
         xtrain, xtest = X[train_index], X[test_index]
         ytrain, ytest = y[train_index], y[test_index]
