@@ -217,30 +217,31 @@ A Random Forest is a form of an ensemble model that is composed of multiple deci
 Advantages of Random Forest Models:
 \begin{enumerate}
   \item \textbf{Ability to handle complex features}: Random forests have the ability to handle complex features, such as time and protocols in the case of network packets, and the relationships between them, which can be very important in classifying network traffic.
-  \item \textbf{High accuracy}: Random forests diminishes the problem of overfitting that can occur in decision trees, and can achieve higher accuracy, helping to more accurately determine website origins of a packet.
+  \item \textbf{High accuracy}: Random forests diminish the problem of overfitting that can occur in decision trees, and can achieve higher accuracy, helping to more accurately determine website origins of a packet.
   \item \textbf{Feature importance}: Random forests can provide insight into which features are most important in the classification process, such as protocol vs time in classifying websites for this project.
-  \item \textbf{Scalability}: Random forests can be scaled to handle much larger datasets, which can be very important for network traffic which can receive a high volume of packet data extremely quick.
+  \item \textbf{Scalability}: Random forests can be scaled to handle much larger datasets, which can be very important for network traffic which can receive a high volume of packet data extremely quickly.
 \end{enumerate}
 
 
-The library used for the Random Forest model was scikit-learn \cite{scikit-learn}. Sci-kit learn's implementation of Random Forests utilize aggregation to take a soft vote of the soft classifications (probability of the packet being from each class). Within soft voting, a weighted average of the probabilities from the classification are taken, and the class with the highest probability is chosen as the final classification.
+The library used for the Random Forest model was scikit-learn \cite{scikit-learn}. Sci-kit learn's implementation of Random Forests utilizes aggregation to take a soft vote of the soft classifications (probability of the packet being from each class). Within soft voting, a weighted average of the probabilities from the classification are taken, and the class with the highest probability is chosen as the final classification.
 
 Within random forest models, many hyperparameters can be fine-tuned to optimize the model. For this project, we chose to optimize the hyperparameters for n estimators (number of trees in the forest), 
-max depth (maximum depth (levels) in the tree), and min samples split (minimum samples within a node to be able to split it into children). In order to optimize all of these hyperparameters, we used a grid search to find the best combination of hyperparameters that would 
+max depth (maximum depth in the tree), and min samples split (minimum samples a node must contain in order to split).
+In order to optimize all of these hyperparameters, we used a grid search to find the best combination of hyperparameters that would 
 yield the highest accuracy. Within the grid search, we also employed the cross validation technique of Kfold validation, which divides the training data into k number of folds. This process is repeated k times, with each fold being used as the validation set exactly once. The results from each fold are then averaged to produce a single estimation of model performance. Overall, after running for multiple different combinations of values for the 
 hyperparameters, the ones we decided to utilize, based on the highest test accuracy scores, were n estimators = 100, max depth = 13, and min samples split = 5. 
 
 \subsubsection{Neural Network}
 
-The final model we chose to use was a Neural Network.
-A Neural Network is a machine learning model that tries to make decision as if it were a human brain. 
+The final model we chose to use was a neural network.
+A neural network is a machine learning model that tries to make decision as if it were a human brain. 
 It consists of a graph of nodes, analogous to neurons, that are interconnected by directed edges, analogous to synapses.
 
 The nodes are organized into layers, as specified here.
 \begin{enumerate}
     \item {\bf Input Layer}: The input layer is, as it sounds, the interface through which the independent variable data comes into the model. 
     In our case, since the model had three inputs, Time, Length, and Protocol, there were three nodes in the input layer.
-    \item {\bf Output Layer}: The output layer is the layer that makes the decisions as to what classes the data are places in. In a "one-hot-encoding" scheme, which is what we employed, there are as many nodes as there are output classes in the data. For our purposes, this corresponds to three nodes, one for Blackboard, one for ChatGPT, and one for LinkedIn. One of the nodes is activated for each data point, and that is the class label it receives.
+    \item {\bf Output Layer}: The output layer is the layer that makes the decisions as to what classes the data are placed in. In a "one-hot-encoding" scheme, which is what we employed, there are as many nodes as there are output classes in the data. For our purposes, this corresponds to three nodes, one for Blackboard, one for ChatGPT, and one for LinkedIn. One of the nodes is activated for each data point, and that is the class label that it receives.
     In binary classification data sets, you could use a single node, and define a threshold, before which the output is classified as class 0 and after which the output is classified as class 1.
     We could have done something similar, by having two thresholds, where either end of the distribution classifies into one of two classes, and the middle classifies into a third, but we felt that the one-hot method made more sense for a number of reasons.
     Namely, the activation functions available (touched on later) didn't provide adequate separation for the simplistic data we have, 
@@ -257,11 +258,11 @@ The nodes are organized into layers, as specified here.
     \label{fig:nn}
 \end{figure}
 
-In a fully-connected neural network, or multilayer perceptron (MLP), which is what our model used, all nodes in each layer of the topology are connected to every node in the next layer, and every node in the previous layer. Nodes at the same layer are not connected.
+In a fully-connected neural network, or multilayer perceptron (MLP), all nodes in each layer of the topology are connected to every node in the next and previous layer. Nodes at the same layer are not connected.
 
 The resulting graph structure is directed, meaning each edge moves in one direction, away from the input layer and towards the output layer. Figure 
 \ref{fig:nn}
-shows the topology and edge structure of an MLP with a 3 node input layer, like out model, a 1 node output layer, {\it unlike} our model, and two hidden layers with four nodes each.
+shows the topology and edge structure of an MLP with a three node input layer, like our model, a one node output layer, {\it unlike} our model, and two hidden layers with four nodes each.
 
 Any given node is related to the connected nodes in the following way.
 Say node $Y$ represents a node in the first hidden layer of Figure \ref{fig:nn}.
@@ -270,14 +271,14 @@ There are 3 inputs from the input layer: $x_1, x_2, x_3$, and four required outp
 $$z = \sum_{i=1}^3(x_i \cdot w_i) + b$$
 
 Variables $w_i$ and $b$ correspond to weight and bias, respectively. Both of these terms get set by the training process of the model, which we'll discuss shortly. 
-The resulting value, $z$, is the input to an {\it activation function}, which, depending on which is used, modifies and normalizes the output before it is passed to the next node. 
+The resulting value $z$ is the input to an {\it activation function}, which modifies and normalizes the output before it is passed to the next node. 
 
 $$output = activation(z)$$
 
-After activation, the math at this node is finished, and the post activation output becomes the input from this node for all the nodes in hidden layer 2.
+After activation, the math at this node is finished, and the post activation output becomes the input from this node for all the nodes in hidden layer two.
 
-Through a solving process, the specific algorithm of which (lbfgs) will be passed into the model, 
-the weights and bias are all calculated for every node, in order to maximize accuracy.
+Through a solving algorithm passed into the model, the weights and bias are all calculated for every node, in order to maximize accuracy.
+
 
 These mathematical procedures would be heavily skewed by outliers in the dataset. Therefore, we made the choice to scale the data using ski-kit-learn's \texttt{Standard Scaler} class to scale all the data between 0 and 1.
 
@@ -290,7 +291,7 @@ Hyperparameters to a neural network define how it is built. We tuned these exten
     \item {\bf Solver}: Limited memory Broyden-Fletcher-Goldfarb-Shanno (lbfgs) algorithm. This is the quasi-Newton method by which the weight and bias hyperparameters are tuned. 
 \end{enumerate}
 
-As mentioned, these hyperparameters were not chosen at random. We ran a GridSearch on many possible combinations of parameters, exhaustively searching every combination. In order to do this, we used the \texttt{GridSearchCV} library in python from scikitlearn, which allowed us to divide the training data into 5 partitions. Then 5 separate times, each of the partitions could be used as the validation data, while the rest of the training data was used to solve the network. These 5 models were bulilt for every possible combination of hyperparameters, from the input hyperparameters shown below.
+As mentioned, these hyperparameters were not chosen at random. We ran a GridSearch on many possible combinations of parameters, exhaustively searching every combination. In order to do this, we used the \texttt{GridSearchCV} library in python from scikit-learn, which allowed us to divide the training data into 5 partitions. Then 5 separate times, each of the partitions could be used as the validation data, while the rest of the training data was used to solve the network. These 5 models were bulilt for every possible combination of hyperparameters, from the input hyperparameters shown below.
 
 \begin{verbatim}
 parameters = {
