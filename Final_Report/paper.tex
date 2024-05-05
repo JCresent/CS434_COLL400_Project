@@ -174,6 +174,13 @@ As a starting point, we employed the Logistic Regression model as a baseline for
 It was understood initially that this model may not be an ideal fit for our data due to the regression's binary nature. Using a binary model while having more than two classifications in our data is not ideal.
 
 
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/LogReg.png}
+  \caption{Logistic Regression model structure example}
+  \label{fig:log_reg_example}
+\end{figure}
+
 Characteristics of Logistic Regression:
 \begin{enumerate}
   \item \textbf{Binary Outcome}: Logistic regression is used for binary classification tasks, where the outcome variable has only two possible outcomes.
@@ -190,6 +197,7 @@ The execution of this model was rather simple: splitting the data into training 
 \subsubsection{K-Nearest Neighbors}
 K-Nearest Neighbors (KNN) is a supervised learning model which classifies data points
 based on their proximity to a specified number (k) of existing data points.
+
 \begin{figure}[!h]
   \centering
   \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/knnExample.png}
@@ -251,7 +259,7 @@ The nodes are organized into layers, as specified here.
     You'll recall our model, however, is called a multi-layer perceptron. 
     This is because there are some $n$ hidden layers, with $m$ nodes each, connected to one-another between the input and output layers.
 \end{enumerate}
-\begin{figure}
+\begin{figure}/
     \centering
     \includegraphics[width=1\linewidth]{Figures_and_Graphs/nn_example.png}
     \caption{Neural Network Model Structure Example}
@@ -308,12 +316,13 @@ After running this grid search, we calculated the validation accuracy from every
 Then, we rebuilt that network and scored it on the fully separate test data. We'll discuss results from the test data in the next section.
 
 \section{Evaluation}
-This section comprehensively evaluates our models and their performance on the dataset and validating sets. Later, goes on to determine the model which best classified our selected websites based on network packet data.
+This section comprehensively evaluates our models and their performance on the training and test sets.
+It also determines the model which best classified our selected websites based on network packet data.
 
 \subsection{Dataset}
-Our dataset of packets acquired from Wireshark was split up in a couple of ways. First and foremost, we had completely separate training data and test data. The training data was used in training processes such as KFold validation that require it to be split "test"-train splits, but we refer to those "test" sets as validation sets, because they are part of the training process, and completely unrelated to the test data.
+Our dataset of packets acquired from Wireshark was split up in a couple of ways. First and foremost, we had completely separate training data and test data. The training data was used in training processes such as KFold validation that require it to be separated into "test"-train splits, but we refer to those "test" sets as validation sets, because they are part of the training process, and completely unrelated to the test data.
 
-Moreover, we used the same test data on all four models, in order to ensure an accurate comparison between them, since their performance is therefore measured with similar constraints.
+Moreover, we used the same test data on all four models, in order to ensure an accurate comparison between them, since their performance is measured with similar constraints.
 We also used the same training data for all four models, except in the Neural Network we collected and added additional data. This is because Neural networks tend to need more data on which to train.
 
 \subsection{Evaluation Metrics}
@@ -344,10 +353,10 @@ Accuracy= \frac{TP}{TP + FP}
 \\
 Accuracy is the score that rates the effectiveness of a model at classification overall (i.e. how many it predicted correctly out of the total set). 
 
-Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores across all classes.
+Macro F1 is the harmonic average of the precision and recall for every class, averaged across all classes.
 
 Recall is the calculation of how many the model correctly classified within a class (i.e. how many truly belong in that class in the entire dataset). 
-Precision is the calculation of how many the model correctly classified within a class (i.e. can be thought of as class accuracy).
+Precision is the calculation of how many the model correctly classified within a class. It can be thought of as class accuracy.
 
 
 \subsection{Model Comparison and Evaluation Results}
@@ -379,7 +388,6 @@ The logistic regression has the lowest scores by far. This makes sense, since it
 The model wasn't designed for this task, so a low accuracy makes sense.
 
 
-
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{Figures_and_Graphs/logRegFig.png}
@@ -394,12 +402,13 @@ The model wasn't designed for this task, so a low accuracy makes sense.
     \label{fig:actual_scatter}
 \end{figure}
 
-As you can see from the difference between the logistic regression scatter plot in Figure \ref{fig:log_reg_scatter} and the actual class scatter plot in Figure \ref{fig:actual_scatter}, it seems the classification grouped packets mostly based on the time variable, which didn't result in very accurate results. We'll get into the specifics of the time variable's specific limitations shortly.
+As you can see from the difference between the logistic regression scatter plot in Figure \ref{fig:log_reg_scatter} and the actual class scatter plot in Figure \ref{fig:actual_scatter}, it seems the classification grouped packets mostly based on the time variable, which didn't result in very accurate results. We'll get into the specifics of the time variable's limitations shortly.
 
-Beyond the baseline logistic regression model, the other models all perform fairly similarly, in the high 70s and low 80s in terms of test accuracy.
+Beyond the baseline logistic regression model, the other models all perform similarly, in the high 70s and low 80s in terms of test accuracy.
 These numbers are good, but not great, for a number of reasons.
 
-First, as you can see from the Actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the protocol feature. ChatGPT uses almost exclusively QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating ChatGPT from either of the others trivially easy, but disambiguating Blackboard and LinkedIn relatively hard.
+First, as you can see from the actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the protocol feature. 
+ChatGPT almost exclusively uses QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating ChatGPT from either of the others trivial, but disambiguating Blackboard and LinkedIn relatively hard.
 
 You'll notice in the heatmaps in Figures \ref{fig:knn_heatmap}, \ref{fig:rf_heatmap}, and \ref{fig:nn_heatmap} that ChatGPT is classified 100\% accurately by Random Forest and Neural Network, and is very close with K-Nearest Neighbors. 
 
@@ -424,8 +433,8 @@ You'll notice in the heatmaps in Figures \ref{fig:knn_heatmap}, \ref{fig:rf_heat
     \label{fig:nn_heatmap}
 \end{figure}
 
-If all of our packets had their own protocols, we'd probably be able to use a simple decision tree with two splits and get nearly 100\% accuracy.
-In reality, the physical closeness of LinkedIn and Blackboard data made it hard for K-Nearest Neighbors to accurately guess based on neighbors, for the Random Forest to build meaningfully effective trees, and for the Neural Network to solve itself cleanly.
+If all of our websites had their own protocols, we'd probably be able to use a simple decision tree with two splits and get nearly 100\% accuracy.
+In reality, the physical closeness of the LinkedIn and Blackboard data made it hard for K-Nearest Neighbors to accurately predict, for the Random Forest to build fully effective trees, and for the Neural Network to solve itself cleanly.
 
 \begin{figure}
     \centering
@@ -442,31 +451,39 @@ In reality, the physical closeness of LinkedIn and Blackboard data made it hard 
     \label{fig:length_scatter}
 \end{figure}
 
-Since protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In Figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
+Since protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In Figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values than LinkedIn. 
 This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per Figure \ref{fig:length_scatter}.
 
 \subsection{Future Work}
 
 If we were to continue this research in the future, we'd want to explore some of the following areas.
 
-First and foremost, we'd want to use a more meaningful variable instead of the unadjusted Time field as one of our input features. While it's true that time could be more meaningful if there was a set length of time in which each session of Wireshark data, even controlling for that doesn't completely eliminate bias from the variable. A better approach would be to use time since previous packet, by getting the time field from the packet indexed before, and taking a difference, for every packet in the dataset (except the first, of course, which would have to be excluded). If we were to do this approach, there's potential that the variance of delays in packets, combined with the length variable which we'd still be measuring, would give our models information as to the amount of data transfer happening in the website, which could be explanatory towards its class.
+First and foremost, we'd want to use a more meaningful variable instead of the unadjusted Time field as one of our input features.
+Time could be more meaningful if we had a set length of time in which each session of Wireshark data was acquired.
+However, even controlling for that doesn't completely eliminate bias from the variable. 
+A better approach would be to use "time-since-previous packet", by getting the time field from the packet indexed before, and taking a difference, for every packet in the dataset. 
+If we were to do this approach, there's potential that the variance of delays in packets, combined with the length variable which we'd still be measuring, would give our models information as to the amount of data transfer happening to and from the website. 
+This could help with classification.
 
-Additionally, we would want to expand our dataset and collect data from more than three websites, with use cases across the Internet. Perhaps if the model were trained on enough different types of sites, we'd be able to classify by website type, such as social media, shopping, etc. Then maybe the model would even be applicable to more domains that weren't even visited in the training data.
+Additionally, we would want to expand our dataset and collect data from more than three websites, with use cases across the Internet. 
+Perhaps if the model were trained on many different types of sites, we'd be able to classify by website type, such as social media, shopping, etc.
+Then maybe the model would even be applicable to more domains that weren't even visited in the training data.
 
-Finally, instead of looking statically at individual packets, we could use a flow of, say, 20 packets as input to our model. This would give us access to more independent variables, such as average length, average packet delay, etc. Since network communication is a constant flow of packets, it's possible that zooming out in this way from the way our model is currently would provide more explanatory power.
+Finally, instead of looking statically at individual packets, we could use a flow of, say, 20 packets as input to our model.
+This would give us access to more independent variables, such as average length, average packet delay, etc.
+Since network communication is a constant flow of packets, it's possible that zooming out from our current implementation would produce stronger predictions.
 
 \section{Conclusion}
-This project explored developing and evaluating models that could classify network traffic by its originating source website. Gathering datasets from three websites:
-ChatGPT, LinkedIn, and Blackboard we then developed 4 models: Logistic Regression, K-Nearest Neighbors, Random Forest, and a Neural Network. After thorough evaluation, the neural network was noticeably outperforming the other three as it achieved the highest accuracy and Macro F1 scores.
+This project explored developing and evaluating models that could classify network traffic by its originating source website. After gathering datasets from three websites,
+ChatGPT, LinkedIn, and Blackboard, we then developed 4 models: Logistic Regression, K-Nearest Neighbors, Random Forest, and a Neural Network. After thorough evaluation, the neural network outperformed the other three as it achieved the highest accuracy and Macro F1 scores.
 
-Our work shows the applications and potential of machine learning in network traffic analysis. The models developed in this project could be used in real-world applications to help network administrators and security professionals in detecting and preventing malicious activities on their networks. 
-This would effectively help them to manage the overall network performance and security, and ensure the network is operating as intended.
+Our work shows the applications and potential of machine learning in network traffic analysis. The models developed in this project could be used in real-world applications to help network administrators and security professionals in detecting and preventing malicious activities on their networks, and help them to manage its overall performance and security.
 
 Main takeaways include:
 \begin{enumerate}
   \item The neural network provides the most accurate classification of network traffic based on the data collected.
   \item The project's results indicate the significance of feature selection and data set size in order to effectively and accurately classify network traffic.
-  \item The graphs, maps, and other visuals help to display each models' predictability towards actual website targets and helps to see the effectiveness of each. 
+  \item The graphs, maps, and other visuals help to display each models' predictability towards actual website targets and help to see the effectiveness of each. 
 \end{enumerate}
 
 Overall, this project serves as but the foundation for a future field of work. With technology improving each year, machine learning will be an invaluable asset to network professionals. 
