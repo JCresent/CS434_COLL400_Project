@@ -1,5 +1,5 @@
 % TODO fill in your paper title
-\newcommand{\PaperTitle}{A Comparative Analysis of Machine Learning Algorithms for Website Traffic Classification from Network Packets }
+\newcommand{\PaperTitle}{Comparative Analysis of Machine Learning Algorithms for Website Traffic Classification from Network Packets }
 % TODO fill in your paper number when you get it
 \newcommand{\PaperNumber}{XXX}
 
@@ -40,7 +40,7 @@ We monitored and analyzed web traffic data from ChatGPT, Blackboard, and Linkedi
 of building models which will be able to predict the web traffic origin or destination of a specific packet. The collection of data was performed
 using Wireshark, then the data was reformatted to eliminate bias and get more accurate results.
 Using the collected data we then trained four models which had varying levels of accuracy, Logistic Regression (56\%), 
-K-Nearest Neighbors (77\%), Random Forest (78\%), and finally a neural
+K-Nearest Neighbors (77\%), Random Forest (83\%), and finally a neural
 network (85\%). This project shows the importance of machine learning within the field of 
 network traffic analysis as automaton is much more efficient and precise compared to manually
 examining web traffic, especially in a scale as large as the internet. One example of our project's significance is that this can be crucial data analysis 
@@ -86,10 +86,10 @@ This section presents the methodology for how this project goes about capturing 
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.72\textwidth]{Figures_and_Graphs/wiresharkFigure.png}
-  \includegraphics[width=0.73\textwidth]{Figures_and_Graphs/wiresharkDataFigure.png}
+  \includegraphics[width=0.72\textwidth]{Figures_and_Graphs/WiresharkFigure.png}
+  \includegraphics[width=0.73\textwidth]{Figures_and_Graphs/WiresharkDataFigure.png}
   \caption{Wireshark interface and example of captured data}
-  \label{fig:wireshark}
+  \label{fig:Wireshark}
 \end{figure*}
 
 \subsubsection{Network analysis tool} For this project, the tool chosen and used was Wireshark \cite{Wireshark}, a widely used network protocol analyzer. Wireshark is capable of capturing and analyzing network packets, and is able to provide a detailed
@@ -112,7 +112,7 @@ the collected data must be processed prior to model training.
 
 
 \subsubsection{Feature Selection}
-The data collection process using Wireshark yields a dataset containing seven distinct features shown in figure \ref{fig:wireshark}. 
+The data collection process using Wireshark yields a dataset containing seven distinct features shown in figure \ref{fig:Wireshark}. 
 \begin{itemize}
   \item \textbf{Packet Number}: An integer representing the order in which the packets were captured during the Wireshark session. Provides insight on the order of the packets on the network interface. 
   \item \textbf{Time}: A floating point value representing the relative timestamp for each packet since the start of the Wireshark session. Similar to packet number, the time feature provides a better understanding of the packet order yet is more precise.
@@ -310,7 +310,7 @@ Then, we rebuilt that network and scored it on the fully separate test data. We'
 This section comprehensively evaluates our models and their performance on the dataset and validating sets. Later, goes on to determine the model which best classified our selected websites based on network packet data.
 
 \subsection{Dataset}
-Our dataset of packets acquired from wireshark was split up in a couple of ways. First and foremost, we had completely separate training data and test data. The training data was used in training processes such as KFold validation that require it to be split "test"-train splits, but we refer to those "test" sets as validation sets, because they are part of the training process, and completely unrelated to the test data.
+Our dataset of packets acquired from Wireshark was split up in a couple of ways. First and foremost, we had completely separate training data and test data. The training data was used in training processes such as KFold validation that require it to be split "test"-train splits, but we refer to those "test" sets as validation sets, because they are part of the training process, and completely unrelated to the test data.
 
 Moreover, we used the same test data on all four models, in order to ensure an accurate comparison between them, since their performance is therefore measured with similar constraints.
 We also used the same training data for all four models, except in the Neural Network we collected and added additional data. This is because Neural networks tend to need more data on which to train.
@@ -448,7 +448,7 @@ This is likely where most of the explanatory power came from since length has a 
 
 If we were to continue this research in the future, we'd want to explore some of the following areas.
 
-First and foremost, we'd want to use a more meaningful variable instead of the unadjusted Time field as one of our input features. While it's true that time could be more meaningful if there was a set length of time in which each session of wireshark data, even controlling for that doesn't completely eliminate bias from the variable. A better approach would be to use time since previous packet, by getting the time field from the packet indexed before, and taking a difference, for every packet in the dataset (except the first, of course, which would have to be excluded). If we were to do this approach, there's potential that the variance of delays in packets, combined with the length variable which we'd still be measuring, would give our models information as to the amount of data transfer happening in the website, which could be explanatory towards its class.
+First and foremost, we'd want to use a more meaningful variable instead of the unadjusted Time field as one of our input features. While it's true that time could be more meaningful if there was a set length of time in which each session of Wireshark data, even controlling for that doesn't completely eliminate bias from the variable. A better approach would be to use time since previous packet, by getting the time field from the packet indexed before, and taking a difference, for every packet in the dataset (except the first, of course, which would have to be excluded). If we were to do this approach, there's potential that the variance of delays in packets, combined with the length variable which we'd still be measuring, would give our models information as to the amount of data transfer happening in the website, which could be explanatory towards its class.
 
 Additionally, we would want to expand our dataset and collect data from more than three websites, with use cases across the Internet. Perheps if the model were trained on enough different types of sites, we'd be able to classify by website type, such as social media, shopping, etc. Then maybe the model would even be applicable to more domains that weren't even visited in the training data.
 
@@ -470,6 +470,23 @@ Main takeaways include:
 
 Overall, this project serves as but the foundation for a future field of work. With technology improving each year, machine learning will be an invaluable asset to network professionals. 
 These models could quickly and effectively be able to identify network traffic to prevent malicious actors and manage traffic flow much more efficiently. 
+
+
+\section{Appendix}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1\linewidth]{Figures_and_Graphs/PredictedPacketsScatterKNN.png}
+  \caption{KNN Predictions Scatterplot}
+  \label{fig:knn_scatter}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1\linewidth]{Figures_and_Graphs/PredictedPacketsScatterRF.png}
+  \caption{Random Forest Predictions Scatterplot}
+  \label{fig:rf_scatter}
+\end{figure}
 
 % Note from the CFP that this section must include a statement about
 % ethical issues; papers that do not include such a statement may be
