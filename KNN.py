@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import f1_score
 
 from sklearn.model_selection import KFold, LeaveOneOut
 from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
@@ -168,10 +169,11 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
     conf = compare_classes(actualClasses,predictedClasses)
     graph = GraphModels.Graphs(testData,actualClasses,predictedClasses)
     
-    
-    graph.confusionMatrix("KNN Confusion Matrix")
-    graph.scatterPlot("K-Nearest Neighbor")
-
+    test_data = convertWireSharkData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv")
+    X_test = test_data.drop(columns="Website", axis=1)
+    y_test = test_data["Website"]
+    print("Accuracy score: ", model.score(X_test, y_test))
+    print("Macro F1 score: ", f1_score(y_test, model.predict(X_test), average='macro'))
     return conf
     
 
@@ -183,6 +185,8 @@ def testWMData(testDataChatgpt, testDataBlackboard, testDataLinkedIn,model):
 model = trainData()
 test = testWMData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv",model)
 print(test)
+
+
 # trainedData = testWMData("lakeData/train/chatdata.csv","lakeData/train/blackboardData.csv","lakeData/train/linkedindata.csv",model)
 plt.show()
 
