@@ -36,7 +36,7 @@
 \begin{abstract}
 Accurately Identifying web traffic destination and origins is crucial for the efficiency of a network. This project explores the potential of machine learning in reference to web traffic classification based on the 
 analysis of network packets. 
-We monitored and analyzed web traffic data from ChatGPT, Blackboard, and Linkedin, with the objective 
+We monitored and analyzed web traffic data from ChatGPT, Blackboard, and LinkedIn, with the objective 
 of building models which will be able to predict the web traffic origin or destination of a specific packet. The collection of data was performed
 using Wireshark, then the data was reformatted to eliminate bias and get more accurate results.
 Using the collected data we then trained four models which had varying levels of accuracy, Logistic Regression (56\%), 
@@ -61,7 +61,7 @@ This project investigates a variety of machine learning algorithms to see which 
   Traffic classification is very significant in practice, if done accurately and effectively \cite{10.1109/TNET.2014.2320577}. For reasons mentioned previously, the observed capabilities of this and other projects 
   can be crucial for network administrators and security professionals, whom would examine the network for malicious traffic.
 
-  For this project, many sets of packet data were collected from three popular websites: ChatGPT, Blackboard, and Linkedin. These sets were then merged into a single dataset, which was then split into training and testing sets. 
+  For this project, many sets of packet data were collected from three popular websites: ChatGPT, Blackboard, and LinkedIn. These sets were then merged into a single dataset, which was then split into training and testing sets. 
   Four models were then trained and tested on this data: Logistic Regression, K-Nearest Neighbors, Random Forest, and Neural Network \cite{scikit-learn}. 
 
   A thorough evaluation of the models was conducted through testing and validation sets, hyperparameter optimization employing cross-validation and grid search, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
@@ -94,7 +94,7 @@ This section presents the methodology for how this project goes about capturing 
 
 \subsubsection{Network analysis tool} For this project, the tool chosen and used was Wireshark \cite{Wireshark}, a widely used network protocol analyzer. Wireshark is capable of capturing and analyzing network packets, and is able to provide a detailed
  view of the packets exchanged between the client and server. Wireshark offers a broad variety of features that allow for users to capture, decode, and analyze network packets. It shows the packet data in a human-readable format, and provides a detailed view of the packet's contents.
- This data contains information on time taken for packet to send and arrive, protocols used, size of each packet, and other fields such as more information on the packet and the source IP address. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (ie. Ethernet, Wifi, etc.). 
+ This data contains information on time taken for packet to send and arrive, protocols used, size of each packet, and other fields such as more information on the packet and the source IP address. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (i.e. Ethernet, Wi-Fi, etc.). 
  The many applications and ease of use of Wireshark make it a great tool for this project.
  
  The process for this project (shown in figure \ref{fig:dataCollection}) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
@@ -227,7 +227,7 @@ The library used for the Random Forest model was scikit-learn \cite{scikit-learn
 
 Within random forest models, many hyperparameters can be fine tuned to optimize the model. For this project, we chose to optimize the hyperparameters for n estimators (number of trees in the forest), 
 max depth (maximum depth (levels) in the tree), and min samples split (minimum samples within a node to be able to split it into children). In order to optimize all of these hyperparameters, we used a grid search to find the best combination of hyperparameters that would 
-yield the highest accuracy. Within the grid search, we also employed the cross validation technique of Kfold validation, which divides the training data into k number of folds. This process is repeated k times, with each fold being used as the validation set exactly once. The results from each fold are then averaged to produce a single estimation of model performance. Overall, after running for many different combinations of values for the 
+yield the highest accuracy. Within the grid search, we also employed the cross validation technique of Kfold validation, which divides the training data into k number of folds. This process is repeated k times, with each fold being used as the validation set exactly once. The results from each fold are then averaged to produce a single estimation of model performance. Overall, after running for multiple different combinations of values for the 
 hyperparameters, the ones we decided to utilize, based on the highest test accuracy scores, were n estimators = 100, max depth = 13, and min samples split = 5. 
 
 \subsubsection{Neural Network}
@@ -244,7 +244,7 @@ The nodes are organized into layers, as specified here.
     In binary classification data sets, you could use a single node, and define a threshold, before which the output is classified as class 0 and after which the output is classified as class 1.
     We could have done something similar, by having two thresholds, where either end of the distribution classifies into one of two classes, and the middle classifies into a third, but we felt that the one-hot method made more sense for a number of reasons.
     Namely, the activation functions available (touched on later) didn't provide adequate separation for the simplistic data we have, 
-    and the middle class being between two thresholds while the other two are open ended is an unfair and unnecessary bias.
+    and the middle class being between two thresholds while the other two are open-ended is an unfair and unnecessary bias.
     \item {\bf Hidden Layer(s)}: The input and output layers can be directly connected by edges. 
     This, if fully connected, would be called a perceptron. 
     You'll recall our model, however, is called a multi-layer perceptron. 
@@ -257,7 +257,7 @@ The nodes are organized into layers, as specified here.
     \label{fig:nn}
 \end{figure}
 
-In a fully-connected neural network, or multilayer perceptron (MLP), which is what our model used, all of the nodes in each layer of the topology are connected to every node in the next layer, and every node in the previous layer. Nodes at the same layer are not connected.
+In a fully-connected neural network, or multilayer perceptron (MLP), which is what our model used, all nodes in each layer of the topology are connected to every node in the next layer, and every node in the previous layer. Nodes at the same layer are not connected.
 
 The resulting graph structure is directed, meaning each edge moves in one direction, away from the input layer and towards the output layer. Figure 
 \ref{fig:nn}
@@ -265,7 +265,7 @@ shows the topology and edge structure of an MLP with a 3 node input layer, like 
 
 Any given node is related to the connected nodes in the following way.
 Say node $Y$ represents a node in the first hidden layer of Figure \ref{fig:nn}.
-There are 3 inputs from the input layer: $x_1, x_2, x_3$, and four required outputs, all of which will be the same . Within the node, The three inputs are fed into this equation:
+There are 3 inputs from the input layer: $x_1, x_2, x_3$, and four required outputs, all of which will be the same. Within the node, The three inputs are fed into this equation:
 
 $$z = \sum_{i=1}^3(x_i \cdot w_i) + b$$
 
@@ -341,12 +341,12 @@ The equation for \textbf{Precision}: \\
 Accuracy= \frac{TP}{TP + FP}
 \]
 \\
-Accuracy is the score that rates the effectiveness of a model at classification overall (ie. how many it predicted correctly out of the total set). 
+Accuracy is the score that rates the effectiveness of a model at classification overall (i.e. how many it predicted correctly out of the total set). 
 
 Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores across all classes.
 
-Recall is the calculation of how many the model correctly classified within a class (ie. how many truly belong in that class in the entire dataset). 
-Precision is the calculation of how many the model correctly classified within a class (ie. can be thought of as class accuracy).
+Recall is the calculation of how many the model correctly classified within a class (i.e. how many truly belong in that class in the entire dataset). 
+Precision is the calculation of how many the model correctly classified within a class (i.e. can be thought of as class accuracy).
 
 
 \subsection{Model Comparison and Evaluation Results}
@@ -361,7 +361,7 @@ This displays that the neural network is more effective at representing complex 
     \hline
     Model & Accuracy & Macro F1 \\
     \hline
-    Logistic Regression & 56\% & 0.00 \\
+    Logistic Regression & 56\% & 56\% \\
     K-Nearest Neighbors & 77\% & 75\% \\
     Random Forest & 83\% & 82\% \\
     Neural Network & 85\% & 84\% \\
@@ -450,7 +450,7 @@ If we were to continue this research in the future, we'd want to explore some of
 
 First and foremost, we'd want to use a more meaningful variable instead of the unadjusted Time field as one of our input features. While it's true that time could be more meaningful if there was a set length of time in which each session of Wireshark data, even controlling for that doesn't completely eliminate bias from the variable. A better approach would be to use time since previous packet, by getting the time field from the packet indexed before, and taking a difference, for every packet in the dataset (except the first, of course, which would have to be excluded). If we were to do this approach, there's potential that the variance of delays in packets, combined with the length variable which we'd still be measuring, would give our models information as to the amount of data transfer happening in the website, which could be explanatory towards its class.
 
-Additionally, we would want to expand our dataset and collect data from more than three websites, with use cases across the Internet. Perheps if the model were trained on enough different types of sites, we'd be able to classify by website type, such as social media, shopping, etc. Then maybe the model would even be applicable to more domains that weren't even visited in the training data.
+Additionally, we would want to expand our dataset and collect data from more than three websites, with use cases across the Internet. Perhaps if the model were trained on enough different types of sites, we'd be able to classify by website type, such as social media, shopping, etc. Then maybe the model would even be applicable to more domains that weren't even visited in the training data.
 
 Finally, instead of looking statically at individual packets, we could use a flow of, say, 20 packets as input to our model. This would give us access to more independent variables, such as average length, average packet delay, etc. Since network communication is a constant flow of packets, it's possible that zooming out in this way from the way our model is currently would provide more explanatory power.
 
@@ -465,7 +465,7 @@ Main takeaways include:
 \begin{enumerate}
   \item The neural network provides the most accurate classification of network traffic based on the data collected.
   \item The project's results indicate the significance of feature selection and data set size in order to effectively and accurately classify network traffic.
-  \item The graphs, maps, and other visuals help to display all of the models predictability towards actual website targets and helps to see the effectiveness of each. 
+  \item The graphs, maps, and other visuals help to display each models' predictability towards actual website targets and helps to see the effectiveness of each. 
 \end{enumerate}
 
 Overall, this project serves as but the foundation for a future field of work. With technology improving each year, machine learning will be an invaluable asset to network professionals. 
