@@ -377,11 +377,16 @@ This displays that the neural network is more effective at representing complex 
 The logistic regression has the lowest scores by far. This makes sense, since it was a dataset with 3 dependent variable classes, and logistic regression is a binary classifier. 
 The model wasn't designed for this task, so a low accuracy makes sense.
 
-{\bf include logreg scatterplot and actual scatterplot here}
 
-As you can see from the scatterplot, 
 
-{\bf yap about scatter plots}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Figures_and_Graphs/logRegFig.png}
+    \caption{Logistic Regression Classification Results}
+    \label{fig:log_reg_scatter}
+\end{figure}
+
+As you can see from the scatterplot in figure \ref{fig:log_reg_scatter}, it seems the classification grouped packets mostly based on the time variable, which didn't result in very accurate results. We'll get into the specifics of the time variable's specific limitations shortly.
 
 Beyond the baseline logistic regression model, the other models all perform fairly similarly, in the high 70s and low 80s in terms of test accuracy.
 These numbers are good, but not great, for a number of reasons.
