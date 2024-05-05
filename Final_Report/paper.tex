@@ -65,7 +65,7 @@ This project investigates a variety of machine learning algorithms to see which 
   Four models were then trained and tested on this data: Logistic Regression, K-Nearest Neighbors, Random Forest, and Neural Network \cite{scikit-learn}. 
 
   A thorough evaluation of the models was conducted through testing and validation sets, hyperparameter optimization employing cross-validation and grid search, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
-  acheived the highest accuracy of $85\%$ and Macro F1 score of 84.
+  achieved the highest accuracy of $85\%$ and Macro F1 score of 84.
 
   These scores display the model's ability to accurately classify the selected websites based on captured network packet data.
 
@@ -269,7 +269,7 @@ There are 3 inputs from the input layer: $x_1, x_2, x_3$, and four required outp
 
 $$z = \sum_{i=1}^3(x_i \cdot w_i) + b$$
 
-Variables $w_i$ and $b$ correspond to weight and bias, respectivly. Both of these terms get set by the training process of the model, which we'll discuss shortly. 
+Variables $w_i$ and $b$ correspond to weight and bias, respectively. Both of these terms get set by the training process of the model, which we'll discuss shortly. 
 The resulting value, $z$, is the input to an {\it activation function}, which, depending on which is used, modifies and normalizes the output before it is passed to the next node. 
 
 $$output = activation(z)$$
@@ -341,13 +341,12 @@ The equation for \textbf{Precision}: \\
 Accuracy= \frac{TP}{TP + FP}
 \]
 \\
-Accuracy straightforwardly measures the probability of correctly identifying a packet based on the rate at which packets are correctly classified in the validation or test sets.
+Accuracy is the score that rates the effectiveness of a model at classification overall (ie. how many it predicted correctly out of the total set). 
 
-Macro F1 is more opaque in terms of being intuitively understood, but it's a harmonic average of each class's metrics of precision and recall, averaged across all classes
+Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores across all classes.
 
-Recall is the calculation of how many classifications the model got correct for a given class, out of the total number of packets truly from that class.
-
-Precision is the calculation of how many classifications that were marked as as class truly belong to each class.
+Recall is the calculation of how many the model correctly classified within a class (ie. how many truly belong in that class in the entire dataset). 
+Precision is the calculation of how many the model correctly classified within a class (ie. can be thought of as class accuracy).
 
 
 \subsection{Model Comparison and Evaluation Results}
@@ -429,10 +428,17 @@ In reality, the physical closeness of LinkedIn and Blackboard data made it hard 
 Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
 This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per figure \ref{fig:length_scatter}.
 
-
 \section{Discussion \& Future Work}
 \subsection{Analysis of Results}
 \subsection{Future Work}
+
+If we were to continue this research in the future, we'd want to explore some of the following areas.
+
+First and foremost, we'd want to use a more meaningful variable instead of the unadjusted Time field as one of our input features. While it's true that time could be more meaningful if there was a set length of time in which each session of wireshark data, even controlling for that doesn't completely eliminate bias from the variable. A better approach would be to use time since previous packet, by getting the time field from the packet indexed before, and taking a difference, for every packet in the dataset (except the first, of course, which would have to be excluded). If we were to do this approach, there's potential that the variance of delays in packets, combined with the length variable which we'd still be measuring, would give our models information as to the amount of data transfer happening in the website, which could be explanatory towards its class.
+
+Additionally, we would want to expand our dataset and collect data from more than three websites, with use cases across the Internet. Perheps if the model were trained on enough different types of sites, we'd be able to classify by website type, such as social media, shopping, etc. Then maybe the model would even be applicable to more domains that weren't even visited in the training data.
+
+Finally, instead of looking statically at individual packets, we could use a flow of, say, 20 packets as input to our model. This would give us access to more independent variables, such as average length, average packet delay, etc. Since network communication is a constant flow of packets, it's possible that zooming out in this way from the way our model is currently would provide more explanatory power.
 
 \section{Conclusion}
 
