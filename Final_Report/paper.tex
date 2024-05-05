@@ -1,5 +1,5 @@
 % TODO fill in your paper title
-\newcommand{\PaperTitle}{Comparative Analysis of Machine Learning Algorithms for Website Traffic Classification from Network Packets }
+\newcommand{\PaperTitle}{Comparative Analysis of machine learning Algorithms for Website Traffic Classification from Network Packets }
 % TODO fill in your paper number when you get it
 \newcommand{\PaperNumber}{XXX}
 
@@ -39,7 +39,7 @@ analysis of network packets.
 We monitored and analyzed web traffic data from ChatGPT, Blackboard, and LinkedIn, with the objective 
 of building models which will be able to predict the web traffic origin or destination of a specific packet. The collection of data was performed
 using Wireshark, then the data was reformatted to eliminate bias and get more accurate results.
-Using the collected data we then trained four models which had varying levels of accuracy, Logistic Regression (56\%), 
+Using the collected data we then trained four models which had varying levels of accuracy: Logistic Regression (56\%), 
 K-Nearest Neighbors (77\%), Random Forest (83\%), and finally a neural
 network (85\%). This project shows the importance of machine learning within the field of 
 network traffic analysis as automaton is much more efficient and precise compared to manually
@@ -102,7 +102,7 @@ This section presents the methodology for how this project goes about capturing 
 
  \subsubsection{Data Collection}
 To commence the collection of our data, we open Wireshark and select a network connection. 
-In this project we established a connection the College of William and Mary's network interface (en0). In order to isolate the web traffic in order to specifically collect 
+In this project we established a connection to the College of William and Mary's network. In order to isolate the web traffic to specifically collect 
 packets that we are analyzing, the capture filter functionality is utilized. The website of interest is then visited in the web browser which causes Wireshark to begin collecting the packets being exchanged.
 After collecting sufficient packets, the data is then converted into a Comma Separated Values (CSV) file. This process of data collection is performed for Blackboard, LinkedIn, and ChatGPT resulting in the creation of 
 three distinct files. 
@@ -144,7 +144,7 @@ There is no good reason to think this would help with classification, and even i
 
 It's possible we could've examined all possible formats of this field to extract relevant information, but since we were classifying on a packet by packet basis, it would be difficult to have a consistent feature that captures this variance.
 
-Consequently, the features selected for training and testing the models are Time, Length, and Protocol. The Protocol feature is converted to an integer for compatibility with 
+Consequently, the features selected for training and testing the models are time, length, and protocol. The protocol feature is converted to an integer for compatibility with 
 the models using a dictionary to map protocol names to a corresponding numerical representation (e.g., \texttt{TCP}: 0, \texttt{QUIC}: 1, \texttt{TLSv1.2}: 2) as shown in Figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
 is created which displays which website the packet originated (e.g., LinkedIn, ChatGPT, Blackboard). The "Website" feature acts as the target variable and allows 
 the models to detect relationships between the packets and their corresponding web traffic origin. 
@@ -401,7 +401,7 @@ As you can see from the difference between the logistic regression scatter plot 
 Beyond the baseline logistic regression model, the other models all perform fairly similarly, in the high 70s and low 80s in terms of test accuracy.
 These numbers are good, but not great, for a number of reasons.
 
-First, as you can see from the Actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the Protocol feature. ChatGPT uses almost exclusively QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating ChatGPT from either of the others trivially easy, but disambiguating Blackboard and LinkedIn relatively hard.
+First, as you can see from the Actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the protocol feature. ChatGPT uses almost exclusively QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating ChatGPT from either of the others trivially easy, but disambiguating Blackboard and LinkedIn relatively hard.
 
 You'll notice in the heatmaps in Figures \ref{fig:knn_heatmap}, \ref{fig:rf_heatmap}, and \ref{fig:nn_heatmap} that ChatGPT is classified 100\% accurately by Random Forest and Neural Network, and is very close with K-Nearest Neighbors. 
 
@@ -444,7 +444,7 @@ In reality, the physical closeness of LinkedIn and Blackboard data made it hard 
     \label{fig:length_scatter}
 \end{figure}
 
-Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In Figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
+Since protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In Figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
 This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per Figure \ref{fig:length_scatter}.
 
 \subsection{Future Work}
