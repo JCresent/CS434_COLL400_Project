@@ -141,7 +141,7 @@ Example 2:
 
 There is no good reason to think this would help with classification, and even if it were to improve the accuracy with our test set, we have no ability to predict in good faith that this would always be the case, since there isn't a consistent semantic meaning.
 
-Consequently, the features selected for training and testing the models are Time, Length, and Protocol. The Protocol feature is converted to an integer for compatibility with 
+Consequently, the features selected for training and testing the models are time, length, and protocol. The protocol feature is converted to an integer for compatibility with 
 the models using a dictionary to map protocol names to a corresponding numerical representation (e.g., \texttt{TCP}: 0, \texttt{QUIC}: 1, \texttt{TLSv1.2}: 2) as shown in Figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
 is created which displays which website the packet originated (e.g., LinkedIn, ChatGPT, Blackboard). The "Website" feature acts as the target variable and allows 
 the models to detect relationships between the packets and their corresponding web traffic origin. 
@@ -398,7 +398,7 @@ As you can see from the difference between the logistic regression scatter plot 
 Beyond the baseline logistic regression model, the other models all perform fairly similarly, in the high 70s and low 80s in terms of test accuracy.
 These numbers are good, but not great, for a number of reasons.
 
-First, as you can see from the Actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the Protocol feature. ChatGPT uses almost exclusively QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating ChatGPT from either of the others trivially easy, but disambiguating Blackboard and LinkedIn relatively hard.
+First, as you can see from the Actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the protocol feature. ChatGPT uses almost exclusively QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating ChatGPT from either of the others trivially easy, but disambiguating Blackboard and LinkedIn relatively hard.
 
 You'll notice in the heatmaps in Figures \ref{fig:knn_heatmap}, \ref{fig:rf_heatmap}, and \ref{fig:nn_heatmap} that ChatGPT is classified 100\% accurately by Random Forest and Neural Network, and is very close with K-Nearest Neighbors. 
 
@@ -441,7 +441,7 @@ In reality, the physical closeness of LinkedIn and Blackboard data made it hard 
     \label{fig:length_scatter}
 \end{figure}
 
-Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In Figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
+Since protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In Figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
 This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per Figure \ref{fig:length_scatter}.
 
 \subsection{Future Work}
