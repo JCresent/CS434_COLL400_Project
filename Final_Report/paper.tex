@@ -44,7 +44,7 @@ K-Nearest Neighbors (77\%), Random Forest (83\%), and finally a neural
 network (85\%). This project shows the importance of machine learning within the field of 
 network traffic analysis as automaton is much more efficient and precise compared to manually
 examining web traffic, especially in a scale as large as the internet. One example of our project's significance is that this can be crucial data analysis 
-for network administrators and security professionals, whom would examine the network for malicious traffic.
+for network administrators and security professionals, who would examine the network for malicious traffic.
 
 \end{abstract}
 
@@ -58,19 +58,20 @@ It helps to manage the overall network performance, detect and prevent malicious
 The present day internet is composed of a vast variety of diverse web traffic, of which requires a more sophisticated approach to analyze and classify network traffic\cite{10.5555/3432601.3432608}.
 This project investigates a variety of machine learning algorithms to see which most accurately and effectively classify web traffic based on data from a set of captured network packets. 
 
-  Traffic classification is very significant in practice, if done accurately and effectively \cite{10.1109/TNET.2014.2320577}. For reasons mentioned previously, the observed capabilities of this and other projects 
-  can be crucial for network administrators and security professionals, whom would examine the network for malicious traffic.
+Traffic classification, if done accurately and effectively, is very significant in practice \cite{10.1109/TNET.2014.2320577}. For reasons mentioned previously, the observed capabilities of this and other projects 
+can be crucial for network administrators and security professionals, who would examine the network for malicious traffic.
 
-  For this project, many sets of packet data were collected from three popular websites: ChatGPT, Blackboard, and LinkedIn. These sets were then merged into a single dataset, which was then split into training and validating sets. 
-  Four models were then trained and tested on this data: Logistic Regression, K-Nearest Neighbors, Random Forest, and Neural Network \cite{scikit-learn}. 
+For this project, many sets of packet data were collected from three popular websites: ChatGPT, Blackboard, and 
+LinkedIn. These sets were then merged into a single dataset, which was then split into training and validating sets. 
+Four models were then trained and tested on this data: Logistic Regression, K-Nearest Neighbors, Random Forest, and Neural Network \cite{scikit-learn}. 
 
-  A thorough evaluation of the models was conducted through test sets, hyperparameter optimization employing cross-validation and grid search, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
-  achieved the highest accuracy of $85\%$ and Macro F1 score of 84\%.
+A thorough evaluation of the models was conducted through test sets, hyperparameter optimization employing cross-validation and grid search, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
+achieved the highest accuracy of $85\%$ and Macro F1 score of 84\%.
 
-  These scores display the model's ability to accurately classify the selected websites based on captured network packet data.
+These scores display the model's ability to accurately classify the selected websites based on captured network packet data.
 
-  Overall, the significance of this project is seen in its use of Machine Learning and the extensions of these applications into the discipline of network traffic analysis. This practice has potential to be utilized in real-world applications, and many sources
-  prove it already is \cite{10.5555/3432601.3432608}. 
+Overall, the significance of this project is seen in its use of Machine Learning and the extensions of these applications into the discipline of network traffic analysis. This practice has potential to be utilized in real-world applications, and many sources
+prove it already is \cite{10.5555/3432601.3432608}. 
 
 \section{Proposed Method}
 This section presents the methodology for how this project goes about capturing network packet data, analyzing the data, and classifying it based on its website of origin.
@@ -92,9 +93,9 @@ This section presents the methodology for how this project goes about capturing 
   \label{fig:Wireshark}
 \end{figure*}
 
-\subsubsection{Network analysis tool} For this project, the tool chosen and used was Wireshark \cite{Wireshark}, a widely used network protocol analyzer. Wireshark is capable of capturing and analyzing network packets, and is able to provide a detailed
+\subsubsection{Network analysis tool} For this project, we chose to use Wireshark\cite{Wireshark}, a widely used network analysis tool. Wireshark is capable of capturing and analyzing network packets, and is able to provide a detailed
  view of the packets exchanged between the client and server. Wireshark offers a broad variety of features that allow for users to capture, decode, and analyze network packets. It shows the packet data in a human-readable format, and provides a detailed view of the packet's contents.
- This data contains information on time taken for packet to send and arrive, protocols used, size of each packet, and other fields such as more information on the packet and the source IP address. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (i.e. Ethernet, Wi-Fi, etc.). 
+ This data contains information on the timestamp when the packet was recognized by Wireshark, protocols used, packet size, more information on the packet, and the source and destination IP addresses. This tool also supports use of different forms of link communication and can be specified to capture packets from a specific network interface (i.e. Ethernet, Wi-Fi, etc.). 
  The many applications and ease of use of Wireshark make it a great tool for this project.
  
  The process for this project (shown in Figure \ref{fig:dataCollection}) involved setting a hostname filter for each desired website, capturing packets from the host, and then exporting the data to a CSV file.
@@ -123,7 +124,7 @@ The data collection process using Wireshark yields a dataset containing seven di
   \item \textbf{Info}: A string value containing more information pertaining to a packet. This value can vary heavily between packets.
 \end{itemize} 
 As the objective of this project is to predict the origin of web traffic, both source and destination are excluded from the dataset used to train the models. 
-Including these would be of course the simplest way to classify the data, of course, but the objective of this investigation is to have a highly applicable mechanism to classify network data when a small subset of information is available. 
+Including these would of course be the simplest way to classify the data, but the objective of this investigation is to have a highly applicable mechanism to classify network data when a small subset of information is available. 
 Including the dependent variable of the research question as an independent variable would trivialize the research.
 
 The info feature is also removed from our data, since its meaning highly varies from packet to packet. Two example Info fields are shown below:
@@ -140,6 +141,8 @@ Example 2:
 \end{verbatim}
 
 There is no good reason to think this would help with classification, and even if it were to improve the accuracy with our test set, we have no ability to predict in good faith that this would always be the case, since there isn't a consistent semantic meaning.
+
+It's possible we could've examined all possible formats of this field to extract relevant information, but since we were classifying on a packet by packet basis, it would be difficult to have a consistent feature that captures this variance.
 
 Consequently, the features selected for training and testing the models are time, length, and protocol. The protocol feature is converted to an integer for compatibility with 
 the models, using a dictionary to map protocol names to a corresponding numerical representation (e.g., \texttt{TCP}: 0, \texttt{QUIC}: 1, \texttt{TLSv1.2}: 2) as shown in Figure \ref{fig:webTraffic}.  Additionally, a categorical variable titled "Website" 
