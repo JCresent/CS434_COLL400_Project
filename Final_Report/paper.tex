@@ -386,7 +386,14 @@ The model wasn't designed for this task, so a low accuracy makes sense.
     \label{fig:log_reg_scatter}
 \end{figure}
 
-As you can see from the scatterplot in figure \ref{fig:log_reg_scatter}, it seems the classification grouped packets mostly based on the time variable, which didn't result in very accurate results. We'll get into the specifics of the time variable's specific limitations shortly.
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Figures_and_Graphs/ActualClassifiedPacketsScatterpng.png}
+    \caption{True Classes of Test Data}
+    \label{fig:actual_scatter}
+\end{figure}
+
+As you can see from the difference between the logistic regression scatterplot in figure \ref{fig:log_reg_scatter} and the actual class scatterplot in figure \ref{fig:actual_scatter}, it seems the classification grouped packets mostly based on the time variable, which didn't result in very accurate results. We'll get into the specifics of the time variable's specific limitations shortly.
 
 Beyond the baseline logistic regression model, the other models all perform fairly similarly, in the high 70s and low 80s in terms of test accuracy.
 These numbers are good, but not great, for a number of reasons.
