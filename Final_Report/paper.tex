@@ -149,18 +149,20 @@ the models, using a dictionary to map protocol names to a corresponding numerica
 is created which displays from which website the packet originated  (e.g., LinkedIn, ChatGPT, Blackboard). The "Website" feature acts as the target variable and allows 
 the models to detect relationships between the packets and their corresponding web traffic origin. 
 
+\begin{figure*}
+  \centering
+  \includegraphics[width=\textwidth]{Figures_and_Graphs/fullDataDiagram.png}
+  \caption{Processed Web Traffic Data}
+  \label{fig:webTraffic}
+\end{figure*}
+
 \subsubsection{Data Formatting}
 To maintain normalized representation in all the collected datasets, a process of data harmonization 
 was applied after collecting the necessary data. The dataset with the minimum number of observations is identified and accounted for when
 truncating the remaining two datasets. Subsequently, the three datasets are combined and rearranged to minimize bias while training each of our models.
 This process ensures a balanced yet unbiased dataset that maximizes the effectiveness of our models. Figure \ref{fig:webTraffic} presents the refined data following the data preparation. 
 
-\begin{figure*}[htp] 
-  \centering
-  \includegraphics[width=\textwidth]{Figures_and_Graphs/fullDataDiagram.png}
-  \caption{Processed Web Traffic Data}
-  \label{fig:webTraffic}
-\end{figure*}
+
 
 \subsection{Employed models}
 For this project, we required a classification model that would be able to accurately predict the website of origin for a given packet. In the end, we chose to employ four different models: Logistic Regression, K-Nearest Neighbors, Random Forest, and a Neural Network.
@@ -194,7 +196,7 @@ The execution of this model was rather simple: splitting the data into training 
 \subsubsection{K-Nearest Neighbors}
 K-Nearest Neighbors (KNN) is a supervised learning model which classifies data points
 based on their proximity to a specified number (k) of existing data points.
-\begin{figure}[htp] 
+\begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{Figures_and_Graphs/knnExample.png}
   \caption{K-Nearest Neighbor model structure example}
@@ -211,6 +213,13 @@ The implementation process is as follows:
 \subsubsection{Random Forest}
 A Random Forest is a form of an ensemble model that is composed of multiple decision trees. Each tree is ran and gives its predicted classification, and the final classification is determined by a majority vote of all the trees (seen in Figure \ref{fig:RFExample}).
 
+\begin{figure}
+  \centering
+  \includegraphics[width=9cm]{Figures_and_Graphs/RandomForestExample.png}
+  \caption{Random Forest model structure example}
+  \label{fig:RFExample}
+\end{figure}
+
 Advantages of Random Forest Models:
 \begin{enumerate}
   \item \textbf{Ability to handle complex features}: Random forests have the ability to handle complex features, such as time and protocols in the case of network packets, and the relationships between them, which can be very important in classifying network traffic.
@@ -219,12 +228,6 @@ Advantages of Random Forest Models:
   \item \textbf{Scalability}: Random forests can be scaled to handle much larger datasets, which can be very important for network traffic which can receive a high volume of packet data extremely quick.
 \end{enumerate}
 
-\begin{figure}[!h]
-  \centering
-  \includegraphics[width=9cm]{Figures_and_Graphs/RandomForestExample.png}
-  \caption{Random Forest model structure example}
-  \label{fig:RFExample}
-\end{figure}
 
 The library used for the Random Forest model was scikit-learn \cite{scikit-learn}. Sci-kit learn's implementation of Random Forests utilize aggregation to take a soft vote of the soft classifications (probability of the packet being from each class). Within soft voting, a weighted average of the probabilities from the classification are taken, and the class with the highest probability is chosen as the final classification.
 
