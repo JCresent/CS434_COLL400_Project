@@ -9,6 +9,7 @@ from sklearn.tree import DecisionTreeClassifier as DTC
 from sklearn import tree
 from sklearn.ensemble import RandomForestClassifier as RFC
 from sklearn.utils import resample
+from sklearn.metrics import f1_score
 import GraphModels
 
 
@@ -208,6 +209,8 @@ print('Test Score: ', rfc_final.score(Xtest, ytest))
 test_data = convertWireSharkData("lakeData/test/chatgptTestData.csv", "lakeData/test/blackboardTestData.csv", "lakeData/test/linkedinTestData.csv")
 X_test = test_data.drop(columns="Website", axis=1)
 y_test = test_data["Website"]
+print("Accuracy score: ", rfc_final.score(X_test, y_test))
+print("Macro F1 score: ", f1_score(y_test, rfc_final.predict(X_test), average='macro'))
 graph_1 = GraphModels.Graphs(X_test, y_test, rfc_final.predict(X_test))
 graph_1.confusionMatrix("Random Forest"), graph_1.scatterPlot("Random Forest")
 #cnf_matrix_tst, accuracy_tst = compare_classes(y_test, rfc_final.predict(X_test), y_names)

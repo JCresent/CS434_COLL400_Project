@@ -81,6 +81,7 @@ class Graphs:
         ax.set_xlabel('Predicted');ax.set_ylabel('Actual'); 
         ax.set_title(title); 
         ax.xaxis.set_ticklabels(np.unique(self.predicted)); ax.yaxis.set_ticklabels(np.unique(self.predicted))
+
         return 
 
   

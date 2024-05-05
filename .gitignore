@@ -1,5 +1,14 @@
+# mac Finder info
 .DS_Store
+
+# python caching
 __pycache__
+
+# nb checkpoints
+.ipynb*
+
+# vim
+*.swp*
 
 #Latex Workshop stuff
 *.aux
