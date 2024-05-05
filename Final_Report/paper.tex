@@ -348,9 +348,27 @@ Recall is the calculation of how many classifications the model got correct for 
 
 Precision is the calculation of how many classifications that were marked as as class truly belong to each class.
 
+
 \subsection{Model Comparison and Evaluation Results}
 The results in table \ref{tab:results} show that the neural network achieved the highest accuracy (85\%) and Macro F1 score {\bf BLANK}. These results mean the model was the most effective at classifying the selected websites based on network packet data.
 This displays that the neural network is more effective at representing complex relationships in the data than the other models. 
+
+\begin{table}[!h]
+  \begin{center}
+  \caption{Accuracy and Macro F1 Scores for Each Model}
+  \label{tab:results}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Model & Accuracy & Macro F1 \\
+    \hline
+    Logistic Regression & 56\% & 0.00 \\
+    K-Nearest Neighbors & 77\% & 0.00 \\
+    Random Forest & 83\% & 82\% \\
+    Neural Network & 85\% & 0.00 \\
+    \hline
+  \end{tabular}
+  \end{center}
+\end{table}
 
 The logistic regression has the lowest scores by far. This makes sense, since it was a dataset with 3 dependent variable classes, and logistic regression is a binary classifier. 
 The model wasn't designed for this task, so a low accuracy makes sense.
@@ -366,7 +384,7 @@ These numbers are good, but not great, for a number of reasons.
 
 First, as you can see from the Actual sample space scatter plot, there is a lot of clustering of the data, particularly in terms of the Protocol feature. ChatGPT uses almost exclusively QUIC protocols, whereas Blackboard and LinkedIn use a mix of TCP and TLSv1.2. This makes differentiating chatGPT from either of the others trivially easy, but disambiguating Blackboard and LinkedIn relatively hard.
 
-You'll notice in the heatmaps in figures \ref{knn_heatmap}, \ref{rf_heatmap}, and \ref{nn_heatmap} that chatGPT is classified 100\% accurately by RF and NN, and is very close with KNN. 
+You'll notice in the heatmaps in figures \ref{fig:knn_heatmap}, \ref{fig:rf_heatmap}, and \ref{fig:nn_heatmap} that chatGPT is classified 100\% accurately by RF and NN, and is very close with KNN. 
 
 \begin{figure}
     \centering
@@ -407,28 +425,9 @@ In reality, the physical closeness of LinkedIn and Blackboard data made it hard 
     \label{fig:length_scatter}
 \end{figure}
 
-Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In figure \ref{time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
-This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per \ref{length_scatter}.
+Since Protocol wasn't deterministic at all for LinkedIn and Blackboard, the explanatory power that our model had must have come from Time and/or Length. In figure \ref{fig:time_scatter}, see that Blackboard has significantly lower time values that LinkedIn. 
+This is likely where most of the explanatory power came from since length has a similar distribution between all websites, as per figure \ref{fig:length_scatter}.
 
-
-
-
-  \begin{table}[!h]
-    \begin{center}
-    \caption{Accuracy and Macro F1 Scores for Each Model}
-    \label{tab:results}
-    \begin{tabular}{|c|c|c|}
-      \hline
-      Model & Accuracy & Macro F1 \\
-      \hline
-      Logistic Regression & 56\% & 0.00 \\
-      K-Nearest Neighbors & 77\% & 0.00 \\
-      Random Forest & 83\% & 82\% \\
-      Neural Network & 85\% & 0.00 \\
-      \hline
-    \end{tabular}
-    \end{center}
-  \end{table}
 
 \section{Discussion \& Future Work}
 \subsection{Analysis of Results}
