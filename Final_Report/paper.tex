@@ -41,7 +41,7 @@ of building models which will be able to predict the web traffic origin or desti
 using Wireshark, then the data was reformatted to eliminate bias and get more accurate results.
 Using the collected data we then trained four models which had varying levels of accuracy, Logistic Regression (56\%), 
 K-Nearest Neighbors (77\%), Random Forest (78\%), and finally a neural
-network (84\%). This project shows the importance of machine learning within the field of 
+network (85\%). This project shows the importance of machine learning within the field of 
 network traffic analysis as automaton is much more efficient and precise compared to manually
 examining web traffic, especially in a scale as large as the internet. One example of our project's significance is that this can be crucial data analysis 
 for network administrators and security professionals, whom would examine the network for malicious traffic.
@@ -65,7 +65,8 @@ This project investigates a variety of machine learning algorithms to see which 
   Four models were then trained and tested on this data: Logistic Regression, K-Nearest Neighbors, Random Forest, and Neural Network \cite{scikit-learn}. 
 
   A thorough evaluation of the models was conducted through testing and validation sets, hyperparameter optimization employing cross-validation and grid search, and computing accuracy and Macro F1 scores. The results showed that the Neural Network model 
-  acheived the highest accuracy of $84\%$ and Macro F1 score of { \bf BLANK}. %%TODO fill in the score.%%
+  acheived the highest accuracy of $85\%$ and Macro F1 score of 84.
+
   These scores display the model's ability to accurately classify the selected websites based on captured network packet data.
 
   Overall, the significance of this project is seen in its use of Machine Learning and the extensions of these applications into the discipline of network traffic analysis. This practice has potential to be utilized in real-world applications, and many sources
@@ -350,7 +351,7 @@ Precision is the calculation of how many classifications that were marked as as 
 
 
 \subsection{Model Comparison and Evaluation Results}
-The results in table \ref{tab:results} show that the neural network achieved the highest accuracy (85\%) and Macro F1 score {\bf BLANK}. These results mean the model was the most effective at classifying the selected websites based on network packet data.
+The results in table \ref{tab:results} show that the neural network achieved the highest accuracy (85\%) and Macro F1 score 84\%. These results mean the model was the most effective at classifying the selected websites based on network packet data.
 This displays that the neural network is more effective at representing complex relationships in the data than the other models. 
 
 \begin{table}[!h]
@@ -364,7 +365,7 @@ This displays that the neural network is more effective at representing complex 
     Logistic Regression & 56\% & 0.00 \\
     K-Nearest Neighbors & 77\% & 0.00 \\
     Random Forest & 83\% & 82\% \\
-    Neural Network & 85\% & 0.00 \\
+    Neural Network & 85\% & 84\% \\
     \hline
   \end{tabular}
   \end{center}

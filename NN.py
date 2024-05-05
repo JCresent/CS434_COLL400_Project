@@ -136,6 +136,9 @@ def predict_and_show(model, X_test, y_test, train_data):
     test_pred = model.predict(X_test)
     test_score = accuracy_score(test_pred, y_test)
     print("accuracy: " + str(test_score))
+
+    print("Macro F1 score: ", f1_score(y_test, test_pred, average='macro'))
+
     graph = GraphModels.Graphs(X_test, y_test, test_pred)
     
     graph.confusionMatrix("NN Confusion Matrix")
