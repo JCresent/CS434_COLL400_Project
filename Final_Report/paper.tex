@@ -341,13 +341,12 @@ The equation for \textbf{Precision}: \\
 Accuracy= \frac{TP}{TP + FP}
 \]
 \\
-Accuracy straightforwardly measures the probability of correctly identifying a packet based on the rate at which packets are correctly classified in the validation or test sets.
+Accuracy is the score that rates the effectiveness of a model at classification overall (ie. how many it predicted correctly out of the total set). 
 
-Macro F1 is more opaque in terms of being intuitively understood, but it's a harmonic average of each class's metrics of precision and recall, averaged across all classes
+Macro F1 is the harmonic average of the of precision and recall for every class, and then taking the average of these calculated scores across all classes.
 
-Recall is the calculation of how many classifications the model got correct for a given class, out of the total number of packets truly from that class.
-
-Precision is the calculation of how many classifications that were marked as as class truly belong to each class.
+Recall is the calculation of how many the model correctly classified within a class (ie. how many truly belong in that class in the entire dataset). 
+Precision is the calculation of how many the model correctly classified within a class (ie. can be thought of as class accuracy).
 
 
 \subsection{Model Comparison and Evaluation Results}
