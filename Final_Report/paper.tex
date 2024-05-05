@@ -165,26 +165,27 @@ We tested the models sequentially, learning lessons along the way about the form
 
 \subsubsection{Logistic Regression (Baseline)}
 As a starting point, we employed the Logistic Regression model as a baseline for our data analysis. Logistic regression is a statistical method used for binary classification tasks, where the goal is to predict the probability of an event happening or not happening.
-It was understoof initiallly that this model may not be an ideal fit for our data; due to the regressions binary nature having more than two classifications is not ideal.
+It was understood initially that this model may not be an ideal fit for our data; due to the regressions binary nature having more than two classifications is not ideal.
 
-Characteristics of Logistic Regression:
-\begin{enumerate}
-  \item \textbf{Binary Outcome}: Logistic regression is used for binary classification tasks, where the outcome variable has only two possible outcome
-  \item \textbf{Linear Relationship}: Logistic regression assumes a linear relationship between the independent variables and the log-odds of the outcome
-  \item \textbf{Probablistic Output}: Instead of predicting discrete classes directly, logistic regression predicts the probability that a given observation belongs to a particular class
-  \item \textbf{Interpretability}: Logistic regression coefficients represent the change in the log-odds of the outcome for a one-unit change in the corresponding independent variable, making it easy to interpret the impact of each variable on the outcome. This characteristic was especially important for our baseline
-\end{enumerate}
-
-The Logistic regression was such an ideal choice for our baseline specifically because of its interpretability characteristics. We wanted to pick a model which would $(1)$ allow us the swiftest entry point into our approach and $(2)$ allow for us to not only have a simple foundation but a foundation from which we could improve upon.
-
-The execution of this model was rather simple: splitting the data into training and testing sets and executing a standard regression to be analyzed. This simplistic approach, as previously mentioned, allowed for us to inspect which features were most advantageous for us and more importantly which features we would continue to analyze.
-
-\begin{figure}[h!]
+\begin{figure}[!h]
   \centering
   \includegraphics[width=9cm]{Figures_and_Graphs/LogReg.png}
   \caption{Logistic Regression model structure example}
   \label{fig:RFExample}
 \end{figure}
+
+Characteristics of Logistic Regression:
+\begin{enumerate}
+  \item \textbf{Binary Outcome}: Logistic regression is used for binary classification tasks, where the outcome variable has only two possible outcome
+  \item \textbf{Linear Relationship}: Logistic regression assumes a linear relationship between the independent variables and the log-odds of the outcome
+  \item \textbf{Probabilistic Output}: Instead of predicting discrete classes directly, logistic regression predicts the probability that a given observation belongs to a particular class
+  \item \textbf{Interpretability}: Logistic regression coefficients represent the change in the log-odds of the outcome for a one-unit change in the corresponding independent variable, making it easy to interpret the impact of each variable on the outcome. This characteristic was especially important for our baseline
+\end{enumerate}
+
+The Logistic regression was an ideal choice for our baseline specifically because of its interpretability characteristics. We wanted to pick a model which would $(1)$ allow us the swiftest entry point into our approach and $(2)$ allow for us to not only have a simple foundation but a foundation from which we could improve upon.
+
+The execution of this model was rather simple: splitting the data into training and testing sets and executing a standard regression to be analyzed. This simplistic approach, as previously mentioned, allowed for us to inspect which features were most advantageous for us and more importantly which features we would continue to analyze.
+
 
 \subsubsection{K-Nearest Neighbors}
 K-Nearest Neighbors (KNN) is a supervised learning model which classifies data points
@@ -214,7 +215,7 @@ Advantages of Random Forest Models:
   \item \textbf{Scalability}: Random forests can be scaled to handle much larger datasets, which can be very important for network traffic which can receive a high volume of packet data extremely quick.
 \end{enumerate}
 
-\begin{figure}
+\begin{figure}[!h]
   \centering
   \includegraphics[width=9cm]{Figures_and_Graphs/RandomForestExample.png}
   \caption{Random Forest model structure example}
