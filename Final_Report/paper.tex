@@ -443,6 +443,21 @@ Additionally, we would want to expand our dataset and collect data from more tha
 Finally, instead of looking statically at individual packets, we could use a flow of, say, 20 packets as input to our model. This would give us access to more independent variables, such as average length, average packet delay, etc. Since network communication is a constant flow of packets, it's possible that zooming out in this way from the way our model is currently would provide more explanatory power.
 
 \section{Conclusion}
+This project explored developing and evaluating models that could classify network traffic by its originating source website. Gathering datasets from three websites:
+ChatGPT, LinkedIn, and Blackboard we then developed 4 models: Logistic Regression, K-Nearest Neighbors, Random Forest, and a Neural Network. After thorough evaluation, the neural network was noticeably outperforming the other three as it achieved the highest accuracy and Macro F1 scores.
+
+Our work shows the applications and potential of machine learning in network traffic analysis. The models developed in this project could be used in real-world applications to help network administrators and security professionals in detecting and preventing malicious activities on their networks. 
+This would effectively help them to manage the overall network performance and security, and ensure the network is operating as intended.
+
+Main takeaways include:
+\begin{enumerate}
+  \item The neural network provides the most accurate classification of network traffic based on the data collected.
+  \item The project's results indicate the significance of feature selection and data set size in order to effectively and accurately classify network traffic.
+  \item The graphs, maps, and other visuals help to display all of the models predictability towards actual website targets and helps to see the effectiveness of each. 
+\end{enumerate}
+
+Overall, this project serves as but the foundation for a future field of work. With technology improving each year, machine learning will be an invaluable asset to network professionals. 
+These models could quickly and effectively be able to identify network traffic to prevent malicious actors and manage traffic flow much more efficiently. 
 
 % Note from the CFP that this section must include a statement about
 % ethical issues; papers that do not include such a statement may be
